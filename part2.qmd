@@ -9,10 +9,16 @@ VisitDate
  : Date of the subject's visit 1
  
 Age
- : Age of subject at time of visit 1
+ : Age (in years) of subject at time of visit 1
  
 Sex
- : Biological sex at birth of the subject
+ : Participant Biological sex at birth
+ : 'Female', if gender = 'F'
+ : 'Male', if gender = 'M'
+ : missing, otherwise
+ 
+alcw
+ : Average number of drinks per week
 
 ## Summary statistics
 
