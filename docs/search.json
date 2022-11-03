@@ -11,7 +11,7 @@
     "href": "part2.html",
     "title": "2  Part 2: Data",
     "section": "",
-    "text": "SubjID\n\nSubject identification number for patient\n\nVisitDate\n\nDate of the subject’s visit 1\n\nAge\n\nAge of subject at time of visit 1\n\nSex\n\nBiological sex at birth of the subject"
+    "text": "SubjID\n\nSubject identification number for patient\n\nVisitDate\n\nDate of the subject’s visit 1\n\nAge\n\nAge (in years) of subject at time of visit 1\n\nSex\n\nParticipant Biological sex at birth\n\n\n‘Female’, if gender = ‘F’\n\n\n‘Male’, if gender = ‘M’\n\n\nmissing, otherwise\n\nalcw\n\nAverage number of drinks per week"
   },
   {
     "objectID": "part3.html",
