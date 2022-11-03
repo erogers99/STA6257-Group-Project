@@ -1,9 +1,3 @@
-# Part 1
+# Part 1: Background
 
-This is a Quarto book.
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
-
-```{r}
-1 + 1
-```
+Elizabeth add lit review outline/draft here

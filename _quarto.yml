@@ -22,4 +22,5 @@ format:
   pdf:
     documentclass: scrreprt
 
+self-contained: true
 editor: source

@@ -2,16 +2,16 @@
   {
     "objectID": "part1.html",
     "href": "part1.html",
-    "title": "1  Part 1",
+    "title": "1  Part 1: Background",
     "section": "",
-    "text": "To learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+    "text": "Elizabeth add lit review outline/draft here"
   },
   {
     "objectID": "part2.html",
     "href": "part2.html",
-    "title": "2  Part 2",
+    "title": "2  Part 2: Data",
     "section": "",
-    "text": "See Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "SubjID\n\nSubject identification number for patient\n\nVisitDate\n\nDate of the subject’s visit 1\n\nAge\n\nAge of subject at time of visit 1\n\nSex\n\nBiological sex at birth of the subject"
   },
   {
     "objectID": "part3.html",
@@ -26,5 +26,12 @@
     "title": "Jackson Heart Study - Stroke Survival Analysis",
     "section": "",
     "text": "This is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "part2.html#summary-statistics",
+    "href": "part2.html#summary-statistics",
+    "title": "2  Part 2: Data",
+    "section": "2.2 Summary statistics",
+    "text": "2.2 Summary statistics\n\n\n\n\n\n\n\nOverall(N=2661)\n\n\n\n\nas.factor(stroke_allevt)\n\n\n\n1\n86 (3.2%)\n\n\nMissing\n2575 (96.8%)\n\n\nas.factor(ohdstroke)\n\n\n\n0\n86 (3.2%)\n\n\nMissing\n2575 (96.8%)\n\n\nas.factor(stroke_incevt)\n\n\n\n0\n2460 (92.4%)\n\n\n1\n60 (2.3%)\n\n\nMissing\n141 (5.3%)\n\n\nLast Contact Type\n\n\n\nCensored\n2460 (92.4%)\n\n\nHemorrhagic Stroke\n1 (0.0%)\n\n\nIschemic Stroke\n59 (2.2%)\n\n\nPrevious Stroke\n22 (0.8%)\n\n\nPrevious Stroke Hx\n56 (2.1%)\n\n\nRefused\n63 (2.4%)\n\n\nAge in Years\n\n\n\nMean (SD)\n54.3 (11.7)\n\n\nMedian [Min, Max]\n54.2 [22.9, 83.2]\n\n\nas.factor(sex)\n\n\n\nFemale\n1679 (63.1%)\n\n\nMale\n982 (36.9%)\n\n\nAverage number of drinks per week in the past 12 months\n\n\n\nMean (SD)\n1.61 (5.06)\n\n\nMedian [Min, Max]\n0 [0, 42.0]\n\n\nMissing\n71 (2.7%)\n\n\nas.factor(htn)\n\n\n\n0\n1238 (46.5%)\n\n\n1\n1423 (53.5%)\n\n\nas.factor(diab3cat)\n\n\n\n0\n1225 (46.0%)\n\n\n1\n900 (33.8%)\n\n\n2\n515 (19.4%)\n\n\nMissing\n21 (0.8%)\n\n\nas.factor(strokehx)\n\n\n\n0\n2586 (97.2%)\n\n\n1\n75 (2.8%)\n\n\nas.factor(chdhx)\n\n\n\n0\n2503 (94.1%)\n\n\n1\n158 (5.9%)\n\n\nas.factor(cvdhx)\n\n\n\n0\n2443 (91.8%)\n\n\n1\n218 (8.2%)\n\n\nas.factor(idealhealthsmk)\n\n\n\n0\n336 (12.6%)\n\n\n1\n2284 (85.8%)\n\n\nMissing\n41 (1.5%)\n\n\nas.factor(bmi3cat)\n\n\n\n0\n1439 (54.1%)\n\n\n1\n871 (32.7%)\n\n\n2\n347 (13.0%)\n\n\nMissing\n4 (0.2%)\n\n\nas.factor(pa3cat)\n\n\n\n0\n1218 (45.8%)\n\n\n1\n884 (33.2%)\n\n\n2\n557 (20.9%)\n\n\nMissing\n2 (0.1%)\n\n\nas.factor(nutrition3cat)\n\n\n\n0\n1379 (51.8%)\n\n\n1\n1016 (38.2%)\n\n\n2\n25 (0.9%)\n\n\nMissing\n241 (9.1%)\n\n\nas.factor(totchol3cat)\n\n\n\n0\n343 (12.9%)\n\n\n1\n989 (37.2%)\n\n\n2\n1119 (42.1%)\n\n\nMissing\n210 (7.9%)"
   }
 ]
