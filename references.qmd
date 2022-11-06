@@ -2,3 +2,52 @@
 
 ::: {#refs}
 :::
+
+
+
+**1.** https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm
+
+**2.** Emmanuel Keku, Wayne D. Rosamond, Herman A. Taylor, Robert J. Garrison, Sharon B. Wyatt, Michelle Richard, Brenda W. Campbell Jenkins, Lisa Reeves, & Daniel F. Sarpong. (2004). Cardiovascular disease event classification in the Jackson Heart Study: methods and procedures. Ethnicity & Disease, 15(4 Suppl 6), S6-70. https://pubmed.ncbi.nlm.nih.gov/16317987
+
+**3.** Christopher T. Sempos, Diane E. Bild, Teri A. Manolio, Overview of the Jackson Heart Study: A Study of Cardiovascular Diseases in African American Men and Women, The American Journal of the Medical Sciences, Volume 317, Issue 3, 1999, Pages 142-146, ISSN 0002-9629, https://doi.org/10.1016/S0002-9629(15)40495-1.
+
+
+**4.** 1 Wyatt SB, Diekelmann N, Henderson F, Andrew ME, Billingsley G, Felder SH et al. A community-driven model of research participation: the Jackson Heart Study Participant Recruitment and Retention Study. Ethn Dis 2003; 13(4):438-455.
+https://www.jacksonheartstudy.org/About/About-The-JHS
+
+
+**5.** https://www.cdc.gov/stroke/facts.htm
+
+**6.** https://www.ninds.nih.gov/health-information/disorders/stroke
+
+**7.** https://www.cdc.gov/stroke/risk_factors.htm
+
+
+**8.** Principles & Practice of Public Health Surveillance, Third Edition
+Oxford University Press, 2010
+Lee, L.M., Teutsch, S.M., Thacker, S.B., St. Louis, M.E.
+Book chapter 6: Analyzing and INterpreting Public Health Surveillance Data
+Sullivan, P.S., McKenna, M.T., Waller, L.A., Williamson, G. D., & Lee, L.M.
+
+
+**9.** Linden, Ariel & Adams, John & Roberts, Nancy. (2004). Evaluating Disease Management Program Effectiveness: An Introduction to Survival Analysis. Disease management : DM. 7. 180-90. 10.1089/1093507042264818. 
+
+
+**10.** Clark, T., Bradburn, M., Love, S. et al. Survival Analysis Part I: Basic concepts and first analyses. Br J Cancer 89, 232–238 (2003). https://doi.org/10.1038/sj.bjc.6601118
+
+
+**11.** BRADBURN, CLARK, T. G., LOVE, S. B., & ALTMAN, D. G. (2003). Survival Analysis Part II: Multivariate data analysis - an introduction to concepts and methods. British Journal of Cancer, 89(3), 431–436. https://doi.org/10.1038/sj.bjc.6601119
+
+**12.** Longstreth WT Jr, Gasca NC, Gottesman RF, Pearce JB, Sacco RL. Adjudication of Transient Ischemic Attack and Stroke in the Multi-Ethnic Study of Atherosclerosis. Neuroepidemiology. 2018;50(1-2):23-28. doi: 10.1159/000486174. Epub 2018 Jan 11. PMID: 29324452; PMCID: PMC5860960.
+
+**13.**
+
+**14.**
+
+
+
+
+
+
+
+
