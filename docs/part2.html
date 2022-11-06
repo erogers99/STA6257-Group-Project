@@ -3978,6 +3978,7 @@ text-align: left;
   <ul>
   <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link active" data-scroll-target="#data-dictionary"> <span class="header-section-number">2.1</span> Data Dictionary</a></li>
   <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link" data-scroll-target="#summary-statistics"> <span class="header-section-number">2.2</span> Summary statistics</a></li>
+  <li><a href="#k-m-plot" id="toc-k-m-plot" class="nav-link" data-scroll-target="#k-m-plot"> <span class="header-section-number">2.3</span> K-M Plot</a></li>
   </ul>
 </nav>
     </div>
@@ -4015,23 +4016,6 @@ Date of the subject’s visit 1
 <dd>
 Age (in years) of subject at time of visit 1
 </dd>
-<dt>Sex</dt>
-<dd>
-Participant Biological sex at birth
-</dd>
-<dd>
-‘Female’, if gender = ‘F’
-</dd>
-<dd>
-‘Male’, if gender = ‘M’
-</dd>
-<dd>
-missing, otherwise
-</dd>
-<dt>alcw</dt>
-<dd>
-Average number of drinks per week
-</dd>
 </dl>
 </section>
 <section id="summary-statistics" class="level2" data-number="2.2">
@@ -4053,18 +4037,6 @@ Average number of drinks per week
 </tr>
 <tr>
 <td class="rowlabel">1</td>
-<td>86 (3.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">2575 (96.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(ohdstroke)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
 <td>86 (3.2%)</td>
 </tr>
 <tr>
@@ -4128,34 +4100,6 @@ Average number of drinks per week
 <td class="lastrow">54.2 [22.9, 83.2]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">as.factor(sex)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">Female</td>
-<td>1679 (63.1%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Male</td>
-<td class="lastrow">982 (36.9%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">Average number of drinks per week in the past 12 months</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">Mean (SD)</td>
-<td>1.61 (5.06)</td>
-</tr>
-<tr>
-<td class="rowlabel">Median [Min, Max]</td>
-<td>0 [0, 42.0]</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">71 (2.7%)</td>
-</tr>
-<tr>
 <td class="rowlabel firstrow">as.factor(htn)</td>
 <td class="firstrow"></td>
 </tr>
@@ -4186,42 +4130,6 @@ Average number of drinks per week
 <tr>
 <td class="rowlabel lastrow">Missing</td>
 <td class="lastrow">21 (0.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(strokehx)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>2586 (97.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">1</td>
-<td class="lastrow">75 (2.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(chdhx)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>2503 (94.1%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">1</td>
-<td class="lastrow">158 (5.9%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(cvdhx)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>2443 (91.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">1</td>
-<td class="lastrow">218 (8.2%)</td>
 </tr>
 <tr>
 <td class="rowlabel firstrow">as.factor(idealhealthsmk)</td>
@@ -4260,46 +4168,6 @@ Average number of drinks per week
 <td class="lastrow">4 (0.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">as.factor(pa3cat)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>1218 (45.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>884 (33.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel">2</td>
-<td>557 (20.9%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">2 (0.1%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(nutrition3cat)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>1379 (51.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>1016 (38.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel">2</td>
-<td>25 (0.9%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">241 (9.1%)</td>
-</tr>
-<tr>
 <td class="rowlabel firstrow">as.factor(totchol3cat)</td>
 <td class="firstrow"></td>
 </tr>
@@ -4324,6 +4192,9 @@ Average number of drinks per week
 </div>
 </div>
 </div>
+</section>
+<section id="k-m-plot" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="k-m-plot"><span class="header-section-number">2.3</span> K-M Plot</h2>
 
 
 </section>

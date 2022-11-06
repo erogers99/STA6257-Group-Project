@@ -10,15 +10,7 @@ VisitDate
  
 Age
  : Age (in years) of subject at time of visit 1
- 
-Sex
- : Participant Biological sex at birth
- : 'Female', if gender = 'F'
- : 'Male', if gender = 'M'
- : missing, otherwise
- 
-alcw
- : Average number of drinks per week
+
 
 ## Summary statistics
 
@@ -52,6 +44,11 @@ data_adj <- full_join(allevtstroke, incevtstroke, by = "subjid")
 data <- full_join(data_adj, visit1, by = "subjid")
 
 
-table1(~ as.factor(stroke_allevt) + as.factor(ohdstroke) +  as.factor(stroke_incevt) + contacttype + age + as.factor(sex) + alcw + as.factor(htn) + as.factor(diab3cat) + as.factor(strokehx) + as.factor(chdhx) + as.factor(cvdhx) + as.factor(idealhealthsmk) + as.factor(bmi3cat) + as.factor(pa3cat) + as.factor(nutrition3cat) + as.factor(totchol3cat)  , data = data)
+#table1(~ as.factor(stroke_allevt) + as.factor(ohdstroke) +  as.factor(stroke_incevt) + contacttype + age + as.factor(sex) + alcw + as.factor(htn) + as.factor(diab3cat) + as.factor(strokehx) + as.factor(chdhx) + as.factor(cvdhx) + as.factor(idealhealthsmk) + as.factor(bmi3cat) + as.factor(pa3cat) + as.factor(nutrition3cat) + as.factor(totchol3cat)  , data = data)
+
+
+table1(~ as.factor(stroke_allevt) +  as.factor(stroke_incevt) + contacttype + age+ as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat) , data = data)
 ```
 
+
+## K-M Plot
