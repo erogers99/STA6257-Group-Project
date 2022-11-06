@@ -1,3 +1,39 @@
 # Part 1: Background
 
-Elizabeth add lit review outline/draft here
+According to the Centers for Disease Control (17) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1). 
+
+
+![Figure 1](/graphics/CDC_Top_10_2020.png)
+
+
+Oftentimes, Mississippi reports as having some of the highest, if not the highest, mortality rate when it comes to cardiovascular disease (CVD) (13), many attributable to African Americans (10). In 1998 (18) and in response to the noted disparities, a collaboration between three higher education institutions and the National Institutes of Health, among other funders, established the Jackson Heart Study (JHS). The JHS is a “single-site, prospective, epidemiologic investigation of CVD among African Americans” (13). The area encompasses the tri county area surrounding Jackson, Mississippi. Participants were recruited using criteria outlined in Table 1 from September 2000 - February 2004, with a final cohort size of 5,302. 
+
+![Table 1](/graphics/JHS_Criteria_Table.png)
+
+While heart disease has been identified as the leading cause of death, it’s also important to further explore other CVD, such as strokes. According to the CDC (19), 1 in 6 cardiovascular deaths was due to stroke, more than half of stroke survivors age 65+ have a reduction in mobility, and is a significant contributor to “serious long-term disability.” The National Institute of Neurological Disorders and Stroke (NINDS) (20) defines a stroke of occurrence as “when the blood supply to part of the brain is suddenly interrupted or when a blood vessel in the brain bursts, spilling blood into the spaces surrounding brain cells.” As a result, brain cells are deprived of oxygen and nutrients. Strokes are further subcategorized into ischemic, which is the blockage of a blood vessel which brings blood to the brain, or hemorrhagic, when bleeding occurs in or around the brain. 
+There are several factors associated with stroke and are identified as: high, blood pressure, high cholesterol, previous stroke, heart disease, diabetes, obesity, sickle cell disease, family history, age, sex, race/ethnicity. In addition, there are several factors which contribute to stroke including a poor diet, minimal physical activity, excessive alcohol use and tobacco use (21). Of those, the CDC further drills down to identify high blood pressure, high cholesterol, smoking, obesity and diabetes as the major factors contributing to stroke (19). In addition, though age is not a major factor, risk increases with age. 
+
+Surveillance The JHS, while not formally a surveillance data set, does possess two major attributes which lend itself towards the classification of surveillance data: annual followup (AFU) and medical record abstraction (MRA) (13). Trained interviewers conduct yearly calls to the cohort to inform annual followup data with a goal of capturing significant health events. These data are entered into the JHS data management system which interacts with MRA unit. In turn, the MRA unit identifies and extracts CVD data (illness and death) which flows to the North Carolina Collaborative Studies Coordinating Center (UNC-CSCC). The JHS Coordinating Center in Jackson, MS and the UNC-CSCC collaboratively manage the surveillance data.
+
+A valuable part of any disease surveillance system is to analyze and interpret the data collected. Data can be used in a variety of ways including a suggestion of a hypothesis, to note trends, inform or evaluate prevention programs and to determine public health needs moving forward (22). The surveillance system's purpose and design drive the type of analysis needed and has a broad range of methods that can be used. One method of analysis that considers the collection of data at multiple points in time or throughout the disease process is known as survival analysis, a statistical method to determine the time to an event of interest (14). Survival analysis is frequently used in the medical field and events can be defined as disease recurrence, relapse-free time interval, remission or death. In the design of the analysis, it’s to capture what the event is and the period of observation. Survival data rarely have a normal distribution with the majority of events early and tapering, leading to a skewed distribution making many modeling methods (like those assuming normal distribution) inaccurate (4). Survival analysis has unique characteristics which should be defined:
+
++ **Censoring** – only some individuals experience the event and can arise by:
+
+  + Patient has not yet experienced the outcome by the end of the study
+
+  + Patient is lost to follow-up during the study
+
+  + Patient experiences an event that makes additional follow-up impossible
+
++ **Right censoring** – The event occurs beyond the end of the follow-up time/study
+
++ **Left censoring** – The event occurred prior to the first follow-up
+
++ **Interval censoring** – The patients come in and out of observation
+
++ **Noninformative censoring** – When a patient is lost from follow-up, they are just as likely to have a subsequent event as the remaining study participants
+
++ **Informative censoring** – Patients withdraw from the study because of a decline in clinical condition or drug toxicity
+
+
+
