@@ -6,12 +6,13 @@ book:
   title: "Jackson Heart Study - Stroke Survival Analysis"
   subtitle: "STA6257 - Group Project"
   author: "Elizabeth, Chad, Emily"
-  date: "11/02/2022"
+  date: "12/07/2022"
   chapters:
     - index.qmd
     - part1.qmd
     - part2.qmd
     - part3.qmd
+    - part4.qmd
     - references.qmd
 
 bibliography: references.bib
