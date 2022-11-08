@@ -1,0 +1,79 @@
+---
+title: "JACKSON HEART STUDY - SURVEILLANCE ANALYSIS"
+subtitle: "STA6257: Advanced Statistical Modeling"
+author: "Elizabeth, Emily, Chad"
+format: 
+  revealjs:
+    theme: sky
+    self-contained: false
+    slide-number: false
+    footer: "[STA6257 - Advanced Statistical Modeling](https://samanthaseals.github.io/STA6257)"
+    width: 1600
+    height: 900
+    chalkboard: true
+    df-print: paged
+    html-math-method: katex
+---
+
+# Background
+
+[PPT & Analysis Coding help](https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
+
+[Survival Package](https://www.rdocumentation.org/packages/survival/versions/3.4-0)
+
+[Format Help](https://quarto.org/docs/presentations/revealjs/)
+
+```{r}
+library(tidyverse)
+library(haven)
+#library(table1)
+library(survival)
+```
+
+## **Causes of Death**
+
+According to the Centers for Disease Control (1) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1).
+
+reference[https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html]
+
+<center>
+<img src="/graphics/CDC_Top_10_2020.png" width="80%"/>
+</center>
+
+## **Jackson Heart Study**
+
+Background/objectives of JHS
+
+## **Stroke - Defined**
+
+## **Stroke - Risk Factors**
+
+## **Stroke - Data**
+
+
+
+# **Survival Analysis**
+
+## **Survival Analysis - General**
+
+## **Survival Analysis - Definitions**
+
+## **Survival Analysis - Methods**
+
+## **Survival Analysis - K-M Plots**
+
+## **Survival Analysis - Logrank**
+
+## **Survival Analysis - Cox Proportional Hazards**
+
+
+
+# **Analysis**
+
+
+
+
+## **References**
+
+# Questions?
+
