@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Jackson Heart Study - Stroke Survival Analysis - 2&nbsp; Part 2: Data</title>
+<title>Jackson Heart Study - Stroke Survival Analysis - 2&nbsp; Part 2: Methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -3814,8 +3814,6 @@ vertical-align: -.125em;
   }
 }</script>
 
-<link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet">
-
 
 </head>
 
@@ -3825,7 +3823,7 @@ vertical-align: -.125em;
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Part 2: Data</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Part 2: Methods</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -3860,17 +3858,17 @@ vertical-align: -.125em;
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Part 2: Data</span></a>
+  <a href="./part2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Part 2: Methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Part 3</span></a>
+  <a href="./part3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Part 3: Data Analysis</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./part4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Part 4: ????</span></a>
+  <a href="./part4.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Part 4: Interpretation of Results</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -3883,22 +3881,14 @@ vertical-align: -.125em;
 </nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#data-dictionary" id="toc-data-dictionary" class="nav-link active" data-scroll-target="#data-dictionary"> <span class="header-section-number">2.1</span> Data Dictionary</a></li>
-  <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link" data-scroll-target="#summary-statistics"> <span class="header-section-number">2.2</span> Summary statistics</a></li>
-  <li><a href="#k-m-plot" id="toc-k-m-plot" class="nav-link" data-scroll-target="#k-m-plot"> <span class="header-section-number">2.3</span> K-M Plot</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Part 2: Data</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Part 2: Methods</span></h1>
 </div>
 
 
@@ -3912,203 +3902,8 @@ vertical-align: -.125em;
 
 </header>
 
-<section id="data-dictionary" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="data-dictionary"><span class="header-section-number">2.1</span> Data Dictionary</h2>
-<dl>
-<dt>SubjID</dt>
-<dd>
-Subject identification number for patient
-</dd>
-<dt>VisitDate</dt>
-<dd>
-Date of the subject’s visit 1
-</dd>
-<dt>Age</dt>
-<dd>
-Age (in years) of subject at time of visit 1
-</dd>
-</dl>
-</section>
-<section id="summary-statistics" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="summary-statistics"><span class="header-section-number">2.2</span> Summary statistics</h2>
-<div class="cell">
-<div class="cell-output-display">
-
-<div class="Rtable1"><table class="Rtable1">
-<thead>
-<tr>
-<th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=2661)</span></span></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="rowlabel firstrow">as.factor(stroke_allevt)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>86 (3.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">2575 (96.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(stroke_incevt)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>2460 (92.4%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>60 (2.3%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">141 (5.3%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">Last Contact Type</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">Censored</td>
-<td>2460 (92.4%)</td>
-</tr>
-<tr>
-<td class="rowlabel">Hemorrhagic Stroke</td>
-<td>1 (0.0%)</td>
-</tr>
-<tr>
-<td class="rowlabel">Ischemic Stroke</td>
-<td>59 (2.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel">Previous Stroke</td>
-<td>22 (0.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel">Previous Stroke Hx</td>
-<td>56 (2.1%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Refused</td>
-<td class="lastrow">63 (2.4%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">Age in Years</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">Mean (SD)</td>
-<td>54.3 (11.7)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">54.2 [22.9, 83.2]</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(htn)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>1238 (46.5%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">1</td>
-<td class="lastrow">1423 (53.5%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(diab3cat)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>1225 (46.0%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>900 (33.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel">2</td>
-<td>515 (19.4%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">21 (0.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(idealhealthsmk)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>336 (12.6%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>2284 (85.8%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">41 (1.5%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(bmi3cat)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>1439 (54.1%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>871 (32.7%)</td>
-</tr>
-<tr>
-<td class="rowlabel">2</td>
-<td>347 (13.0%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">4 (0.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel firstrow">as.factor(totchol3cat)</td>
-<td class="firstrow"></td>
-</tr>
-<tr>
-<td class="rowlabel">0</td>
-<td>343 (12.9%)</td>
-</tr>
-<tr>
-<td class="rowlabel">1</td>
-<td>989 (37.2%)</td>
-</tr>
-<tr>
-<td class="rowlabel">2</td>
-<td>1119 (42.1%)</td>
-</tr>
-<tr>
-<td class="rowlabel lastrow">Missing</td>
-<td class="lastrow">210 (7.9%)</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</section>
-<section id="k-m-plot" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="k-m-plot"><span class="header-section-number">2.3</span> K-M Plot</h2>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -4216,7 +4011,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./part3.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Part 3</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Part 3: Data Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

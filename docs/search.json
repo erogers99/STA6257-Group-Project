@@ -16,9 +16,9 @@
   {
     "objectID": "part3.html",
     "href": "part3.html",
-    "title": "3  Part 3",
+    "title": "3  Part 3: Data Analysis",
     "section": "",
-    "text": "1 + 1\n\n[1] 2"
+    "text": "INtro materials/methods results interpretation - discussion"
   },
   {
     "objectID": "index.html",
@@ -47,5 +47,40 @@
     "title": "2  Part 2: Data",
     "section": "2.3 K-M Plot",
     "text": "2.3 K-M Plot"
+  },
+  {
+    "objectID": "part3.html#data-dictionary",
+    "href": "part3.html#data-dictionary",
+    "title": "3  Part 3: Data Analysis",
+    "section": "3.1 Data Dictionary",
+    "text": "3.1 Data Dictionary\n\nSubjID\n\nSubject identification number for patient\n\nVisitDate\n\nDate of the subject’s visit 1\n\nAge\n\nAge (in years) of subject at time of visit 1"
+  },
+  {
+    "objectID": "part3.html#summary-statistics",
+    "href": "part3.html#summary-statistics",
+    "title": "3  Part 3: Data Analysis",
+    "section": "3.2 Summary statistics",
+    "text": "3.2 Summary statistics\n\n\n\n\n\n\n\nOverall(N=2288)\n\n\n\n\nas.factor(stroke)\n\n\n\n0\n2245 (98.1%)\n\n\n1\n43 (1.9%)\n\n\nLast Contact Type\n\n\n\nCensored\n2245 (98.1%)\n\n\nHemorrhagic Stroke\n1 (0.0%)\n\n\nIschemic Stroke\n42 (1.8%)\n\n\nAge in Years\n\n\n\nMean (SD)\n54.0 (11.7)\n\n\nMedian [Min, Max]\n53.9 [22.9, 83.2]\n\n\nas.factor(htn)\n\n\n\n0\n1112 (48.6%)\n\n\n1\n1176 (51.4%)\n\n\nas.factor(diab3cat)\n\n\n\n0\n1093 (47.8%)\n\n\n1\n811 (35.4%)\n\n\n2\n384 (16.8%)\n\n\nas.factor(idealhealthsmk)\n\n\n\n0\n284 (12.4%)\n\n\n1\n2004 (87.6%)\n\n\nas.factor(bmi3cat)\n\n\n\n0\n1233 (53.9%)\n\n\n1\n759 (33.2%)\n\n\n2\n296 (12.9%)\n\n\nas.factor(totchol3cat)\n\n\n\n0\n317 (13.9%)\n\n\n1\n920 (40.2%)\n\n\n2\n1051 (45.9%)"
+  },
+  {
+    "objectID": "part3.html#k-m-plot",
+    "href": "part3.html#k-m-plot",
+    "title": "3  Part 3: Data Analysis",
+    "section": "3.3 K-M Plot",
+    "text": "3.3 K-M Plot"
+  },
+  {
+    "objectID": "part3.html#cox-proportion-hazards-model",
+    "href": "part3.html#cox-proportion-hazards-model",
+    "title": "3  Part 3: Data Analysis",
+    "section": "3.4 Cox Proportion Hazards Model",
+    "text": "3.4 Cox Proportion Hazards Model\n\n\n\n\n\n\n  \n  \n    \n      Characteristic\n      HR1\n      95% CI1\n      p-value\n    \n  \n  \n    Age in Years\n1.08\n1.04, 1.12\n<0.001\n    as.factor(htn)\n\n\n\n        0\n—\n—\n\n        1\n1.10\n0.54, 2.23\n0.8\n    as.factor(diab3cat)\n\n\n\n        0\n—\n—\n\n        1\n2.65\n1.09, 6.44\n0.031\n        2\n4.82\n1.89, 12.3\n0.001\n    as.factor(idealhealthsmk)\n\n\n\n        0\n—\n—\n\n        1\n0.37\n0.17, 0.81\n0.012\n    as.factor(bmi3cat)\n\n\n\n        0\n—\n—\n\n        1\n1.27\n0.65, 2.47\n0.5\n        2\n1.30\n0.46, 3.67\n0.6\n    as.factor(totchol3cat)\n\n\n\n        0\n—\n—\n\n        1\n0.69\n0.32, 1.47\n0.3\n        2\n0.50\n0.21, 1.16\n0.10\n  \n  \n  \n    \n      1 HR = Hazard Ratio, CI = Confidence Interval"
+  },
+  {
+    "objectID": "part3.html#assumption-verification",
+    "href": "part3.html#assumption-verification",
+    "title": "3  Part 3: Data Analysis",
+    "section": "3.5 Assumption Verification",
+    "text": "3.5 Assumption Verification"
   }
 ]
