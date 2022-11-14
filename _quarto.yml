@@ -5,7 +5,7 @@ project:
 book:
   title: "Jackson Heart Study - Stroke Survival Analysis"
   subtitle: "STA6257 - Group Project"
-  author: "Elizabeth, Chad, Emily"
+  author: "Elizabeth Arthur and Emily Rogers"
   date: "12/07/2022"
   chapters:
     - index.qmd

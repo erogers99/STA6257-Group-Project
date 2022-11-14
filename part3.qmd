@@ -1,9 +1,25 @@
-# Part 3: Data Analysis
+# Part 3: Methods
 
-INtro
-materials/methods
-results
-interpretation - discussion
+Mathematically, it can be written as:
+
+$$
+h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
+$$
+
+In words, it can be stated that the hazard function, $h(t)$, is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (11). This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (14). 
+
+***Add in the following:***
+
++ **Proportionality assumption & hazard ratios - define & explain**
+
++ **Explain the baseline hazard 'intercept' term, and multiplicative interaction with covariates.**
+
+
+
+
+
+*********************************************************************
+
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -17,22 +33,6 @@ library(gtsummary)
 #library(tidycmprsk)
 #library(condSURV)
 ```
-
-## Data Dictionary
-
-SubjID
-: Subject identification number for patient
- 
-VisitDate
- : Date of the subject's visit 1
- 
-Age
- : Age (in years) of subject at time of visit 1
-
-
-## Summary statistics
-
-
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -61,24 +61,7 @@ incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
 data <- full_join(incevtstroke, visit1, by = "subjid")
 data <- na.omit(data)
 
-###Example Code
-# v1$hsgrad <- as.factor(v1$hsgrad)
-# v1$bmi3cat <- as.factor(v1$bmi3cat)
-# v1$htn <- as.factor(v1$htn)
-# 
-# label(v1$hsgrad) <- "High School Graduate"
-# label(v1$bmi3cat) <- "AHA BMI Categorization"
-# label(v1$htn) <- "Hypertension Status"
-# 
-# levels(v1$hsgrad) <- c("Nongraduate", "Graduate")
-# levels(v1$bmi3cat) <- c("Poor", "Intermediate", "Ideal")
-# levels(v1$htn) <- c("Normotensive", "Hypertensive")
-# 
-# table1(~ htn + age + totchol + hba1c + hsgrad + bmi3cat, data=v1)
-
-table1(~ as.factor(stroke) + contacttype + age+ as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat) , data = data)
 ```
-
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -88,42 +71,23 @@ data <- data %>% mutate(time = difftime(date, visitdate))
 #Create the survival object (created from time variable and if the event has taken place.)
 obj <- Surv(data$time, data$stroke)
 ```
+```{r}
+ #Sample from object vector
+ tail(head(obj, 115), 5)
+```
 
 
 ## K-M Plot
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-km <- survfit(obj ~1, data=data)
 
-#km_struct <- str(km)
-
-km_2 <- survfit2(obj ~ 1, data=data)
-
-km_plot <- km_2 %>% ggsurvfit() + labs(x = "Time in Days", y = "Overall probability Being Stroke Free") +   add_confidence_interval() + add_risktable()
-
-km_plot
-```
-
+Data reported by the JHS study was used in calculating basic survival analysis on the adjudication of strokes in the cohort. Two data sets were utilized and joined on the variable subjectid. After removing N/As, 2,288 observations remained in the data set for further analysis. The analysis was completed using R statistical software package, specifically the {survival} package. A time variable was created from the date at visit 1 until either the date of event (stroke) or the censoring date to use in the analysis. Using the calculated time and the variable stroke, a survival object was created using the surv function. The object created was then used  to construct a survival curve using the survfit function. A Kaplan-Meier plot was then created to visualize the survival curve and confidence interval with the x-axis representing time and the y-axis representing the probability of being stroke free. 
 
 
 ## Cox Proportion Hazards Model
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
-
-cox <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
-
-cox_table <- cox %>% tbl_regression(exp = TRUE) 
-cox_table
-```
-
+Finally, the Cox PH analysis was used to model multiple variables from the data set. The coxph() function from the {survival} package was used. The object previously created for the KM plot is used on the left side with standard regression formulas on the right. All variables considered in the model are identified by the CDC as major risk factors for stroke. A table of results was created using the tbl_regression() function out of {gtsummary}, with exponentiate set to TRUE to return the hazard ratio versus the log hazard ratio.
 
 ## Assumption Verification
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
-##Colinearity
 
-##LOF
 
-##AIC
-
-```
