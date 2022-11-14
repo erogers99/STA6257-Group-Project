@@ -44,22 +44,9 @@ A valuable part of any disease surveillance system is to analyze and interpret t
 
 Survival analysis looks at two related probability functions referred to as survivor, $S(t)$, the likelihood having not occurred at a specific time, and hazard, $h(t)$ or $\lambda(t)$, the likelihood of the event occurring at a specific time, which are related probabilities. The three most common methods include: Kaplan-Meier (KM) plots, Logrank tests, which are univariate (only take into account the factor of interest) and Cox proportional hazards  model, which is a semi-parametric approach and the most common model used in multivariate survival analysis. Other multivariate analyses are available which take into account multiple variables/factors that might influence the outcome and include two general types of testing groups: proportional hazard approaches (semi-parametric & fully parametric approaches) and accelerated failure time models (11).
 
-The KM method is a straightforward model that requires no further explanation of variations in survival time in relation to independent variables (9). Using this method is based on the assumption that all events occur independently of each other (10). This model returns an estimation for each patient surviving at the start of the observation period as a probability of surviving to the end of each observation period. Each probability is a “step function” whose value changes only at each event time. A cumulative survival probability can be calculated by multiplying the probabilities of surviving from one interval to the next.
+The KM method is a straightforward model that requires no further explanation of variations in survival time in relation to independent variables (9). Using this method is based on the assumption that all events occur independently of each other (10). This model returns an estimation for each patient surviving at the start of the observation period as a probability of surviving to the end of each observation period. Each probability is a “step function” whose value changes only at each event time. A cumulative survival probability can be calculated by multiplying the probabilities of surviving from one interval to the next. The Logrank test compares the survival of two groups as is seen when using a control group. This method assumes no differences between groups and calculates the expected number of events at any given time for both groups (10).
 
-The Cox Proportional Hazards (PH) regression model is the most used method to analyze survival data and “describes the relation between the event incident, as expressed by the hazard function and a set of covariates” and no one type of statistical distribution is assumed (10). One reason for its popularity as a model is its close resemblance to other regression models, which explains a dependent (outcome) variable is related to one or more independent variables (9). This method allows for the ability to control for censored cases and their effects, where linear models don’t allow for that. Mathematically, it can be written as:
-
-$$
-h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
-$$
-
-In words, it can be stated that the hazard function, $h(t)$, is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (11). This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (14). 
-
-***Add in the following:***
-
-+ **Proportionality assumption & hazard ratios - define & explain**
-
-+ **Explain the baseline hazard 'intercept' term, and multiplicative interaction with covariates.**
-
-
+The Cox Proportional Hazards (PH) regression model is the most used method to analyze survival data and “describes the relation between the event incident, as expressed by the hazard function and a set of covariates” and no one type of statistical distribution is assumed (10). One reason for its popularity as a model is its close resemblance to other regression models, which explains a dependent (outcome) variable is related to one or more independent variables (9). This method allows for the ability to control for censored cases and their effects, where linear models don’t allow for that. 
 
 In the JHS study, strokes can be documented in three ways - adjudicated cases, through the annual followup phone interviews and subsequent data or through data collected on forms at formal clinical visits. The focus of this analysis is to focus on adjudicated cases, as defined by the process by which trained medical personnel review the events of the study to confirm and classify the presence and the type of stroke (12). 
+
