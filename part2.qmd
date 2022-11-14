@@ -1,4 +1,4 @@
-# Part 2: Data Exploration 
+# Data Exploration 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -46,7 +46,7 @@ DIAB3CAT
 
 :   Diabetes categorization
 
-:   0 = Non-diabetic
+:   0 = Non-Diabetic
 
 :   1 = Pre-Diabetic
 
@@ -62,7 +62,7 @@ IDEALHEALTHSMK
 
 BMI3CAT
 
-:   0 = Poor Health defined as BMI $\geq$ 30 (obese)
+:   0 = Poor Health defined as BMI $\geq$ 30 (Obese)
 
 :   1 = Intermediate Health defined as 25 $\leq$ BMI < 30 (Overweight)
 
@@ -130,22 +130,37 @@ incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
 data <- full_join(incevtstroke, visit1, by = "subjid")
 data <- na.omit(data)
 
-###Example Code
-# v1$hsgrad <- as.factor(v1$hsgrad)
-# v1$bmi3cat <- as.factor(v1$bmi3cat)
-# v1$htn <- as.factor(v1$htn)
-# 
-# label(v1$hsgrad) <- "High School Graduate"
-# label(v1$bmi3cat) <- "AHA BMI Categorization"
-# label(v1$htn) <- "Hypertension Status"
-# 
-# levels(v1$hsgrad) <- c("Nongraduate", "Graduate")
-# levels(v1$bmi3cat) <- c("Poor", "Intermediate", "Ideal")
-# levels(v1$htn) <- c("Normotensive", "Hypertensive")
-# 
-# table1(~ htn + age + totchol + hba1c + hsgrad + bmi3cat, data=v1)
 
-table1(~ as.factor(stroke) + contacttype + age+ as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat) , data = data)
+#Transform data
+data$stroke <- as.factor(data$stroke)
+data$htn <- as.factor(data$htn)
+data$diab3cat <- as.factor(data$diab3cat)
+data$idealhealthsmk <- as.factor(data$idealhealthsmk)
+data$totchol3cat <- as.factor(data$totchol3cat)
+data$bmi3cat < as.factor(data$bm)
+
+##Label data
+label(data$stroke) <- "Adjudicated Stroke Occurrance"
+levels(data$stroke) <- c("No Stroke", "Adjudicated Stroke")
+
+label(data$htn) <- "Hypertensive Status"
+levels(data$htn) <- c("Normal/Pre-Hypertensive", "Hypertensive")
+
+label(data$diab3cat) <- "Diabetes Categorization"
+levels(data$diab3cat) <- c("Non-Diabetic", "Pre-Diabetic", "Diabetic")
+
+label(data$idealhealthsmk) <- "Smoking Status"
+levels(data$idealhealthsmk) <- c("Current Smoker","Never Smoked/Quit + 12 months")
+
+label(data$bmi3cat) <- "AHA BMI Categorization"
+levels(data$bmi3cat) <- c("Obese","Overweight","Normal Weight")
+
+label(data$totchol3cat) <- "AHA Total Cholesterol Categorization"
+levels(data$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Health")
+
+#Create Table
+table1(~ stroke + contacttype + age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
+
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}

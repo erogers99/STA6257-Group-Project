@@ -1,24 +1,8 @@
-# Part 3: Methods
+# Methods
 
-Mathematically, it can be written as:
+Data reported by the JHS study was used in calculating basic survival analysis on the adjudication of strokes in the cohort. Two data sets were utilized and joined on the variable subjectid. After removing N/As, 2,288 observations remained in the data set for further analysis. The analysis was completed using R statistical software package, specifically the {survival} package. A time variable was created from the date at visit 1 until either the date of event (stroke) or the censoring date to use in the analysis. 
 
-$$
-h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
-$$
-
-In words, it can be stated that the hazard function, $h(t)$, is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (11). This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (14). 
-
-***Add in the following:***
-
-+ **Proportionality assumption & hazard ratios - define & explain**
-
-+ **Explain the baseline hazard 'intercept' term, and multiplicative interaction with covariates.**
-
-
-
-
-
-*********************************************************************
+Using the calculated time and the variable stroke, a survival object was created using the surv function. The object creates a vector that results in one entry created for each observation that represent the time to stroke. If the subject was censored, the entry is followed by a +. A sample of the object is shown:
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -29,6 +13,7 @@ library(lubridate)
 library(survival)
 library(ggsurvfit)
 library(gtsummary)
+library(ggfortify)
 
 #library(tidycmprsk)
 #library(condSURV)
@@ -63,6 +48,8 @@ data <- na.omit(data)
 
 ```
 
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 #Create time variable (time from visit 1 until event/censoring date)
@@ -77,16 +64,87 @@ obj <- Surv(data$time, data$stroke)
 ```
 
 
-## K-M Plot
+The object created was then used  to construct a survival curve using the survfit function. 
 
-Data reported by the JHS study was used in calculating basic survival analysis on the adjudication of strokes in the cohort. Two data sets were utilized and joined on the variable subjectid. After removing N/As, 2,288 observations remained in the data set for further analysis. The analysis was completed using R statistical software package, specifically the {survival} package. A time variable was created from the date at visit 1 until either the date of event (stroke) or the censoring date to use in the analysis. Using the calculated time and the variable stroke, a survival object was created using the surv function. The object created was then used  to construct a survival curve using the survfit function. A Kaplan-Meier plot was then created to visualize the survival curve and confidence interval with the x-axis representing time and the y-axis representing the probability of being stroke free. 
+**NOTE: Check to see if this is the correct survival curve function/graph to use - by variable?**
 
 
-## Cox Proportion Hazards Model
 
-Finally, the Cox PH analysis was used to model multiple variables from the data set. The coxph() function from the {survival} package was used. The object previously created for the KM plot is used on the left side with standard regression formulas on the right. All variables considered in the model are identified by the CDC as major risk factors for stroke. A table of results was created using the tbl_regression() function out of {gtsummary}, with exponentiate set to TRUE to return the hazard ratio versus the log hazard ratio.
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#fit <- survfit(Surv(data$time, data$stroke) ~ data$age)
+#autoplot(survfit(Surv(data$time, data$stroke) ~ 1),surv.colour = 'orange', censor.colour = 'red')
 
-## Assumption Verification
+# https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html
+# https://www.rdocumentation.org/packages/survival/versions/3.4-0/topics/aareg
+
+autoplot(aareg(Surv(data$time, data$stroke) ~ data$age + data$htn + data$diab3cat + data$idealhealthsmk + data$bmi3cat + data$totchol3cat))
+
+```
+
+
+## Kaplan-Meier (K-M) Survival Estimate {.unnumbered}
+
+Broken down, the K-M survival probability of having not having stroke at time, $t_j$, $S(t_j)$ can be calculated using: 
+
++ Formula variable definitions
+
+  + $S(t_{j-1})$ => the probability of not having a stroke at time *$t_{j-1}$
+  + $n_j$ => the number of participants stroke free just before $t_j$, $n_j$
+  + $d_j$ => the number of events (strokes) at $t_j$
+  
+  $S(t_j)$ = $S(t_{j-1})$(1 - $\frac{d_j}{n_j}$)
+
+
+A Kaplan-Meier plot was created to visualize the survival curve and confidence interval, which is further discussed in Data Analysis and Results.
+
+
+## Cox Proportional Hazard (PH) {.unnumbered}
+
+The Cox PH can is the hazard function, $h(t)$, which is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (11), mathematically shown as:
+
+$$
+h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
+$$
+
+This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (14). 
+
+A Cox PH analysis was used to model multiple variables from the data set. The coxph() function from the {survival} package was used. The object previously created for the KM plot is found on the left side with standard regression formulas on the right. All variables considered in the model are identified by the CDC as major risk factors for stroke. A table of results was created using the tbl_regression() function out of {gtsummary}, with exponentiate set to TRUE to return the hazard ratio versus the log hazard ratio, which is further discussed in Data Analysis and Results.
+
+
+
+## Assumption Verification {.unnumbered}
+
+**Still need to add in test for collinearity, AIC and goodness of fit**
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+##Colinearity/Multi-collinearity?? 
+##VIF
+## USING ___ AS A CUTOFF, 
+
+##LOF
+
+##AIC - do we need to add this? This is when we're comparing models.
+
+
+
+```
+
+Assumption: Hazards are proportional at each point in time throughout the followup
+Using the cox.zph() function from the {survival} packate, the assumption can be checked.
+STILL WORKING ON CODE
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+
+#assump_fit <- coxph(Surv(data$time, data$stroke) ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+
+```
+
+
+
+
+
 
 
 
