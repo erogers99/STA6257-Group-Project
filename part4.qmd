@@ -1,5 +1,5 @@
 
-# Part 4:  Data Analysis & Results
+# Data Analysis & Results
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -51,7 +51,10 @@ data <- data %>% mutate(time = difftime(date, visitdate))
 #Create the survival object (created from time variable and if the event has taken place.)
 obj <- Surv(data$time, data$stroke)
 ```
-## K-M Plot
+
+## K-M Plot {.unnumbered}
+
+**ADD INTERPRETATION OF PLOT**
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 km <- survfit(obj ~1, data=data)
@@ -65,28 +68,52 @@ km_plot <- km_2 %>% ggsurvfit() + labs(x = "Time in Days", y = "Overall probabil
 km_plot
 ```
 
-## Cox Proportion Hazards Model
+## Cox Proportion Hazards Model  {.unnumbered}
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
+#Transform data
+data$stroke <- as.factor(data$stroke)
+data$htn <- as.factor(data$htn)
+data$diab3cat <- as.factor(data$diab3cat)
+data$idealhealthsmk <- as.factor(data$idealhealthsmk)
+data$totchol3cat <- as.factor(data$totchol3cat)
+data$bmi3cat < as.factor(data$bmi3cat)
 
-cox <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+##Label data
+label(data$stroke) <- "Adjudicated Stroke Occurrance"
+levels(data$stroke) <- c("No Stroke", "Adjudicated Stroke")
+
+label(data$htn) <- "Hypertensive Status"
+levels(data$htn) <- c("Normal/Pre-Hypertensive", "Hypertensive")
+
+label(data$diab3cat) <- "Diabetes Categorization"
+levels(data$diab3cat) <- c("Non-Diabetic", "Pre-Diabetic", "Diabetic")
+
+label(data$idealhealthsmk) <- "Smoking Status"
+levels(data$idealhealthsmk) <- c("Current Smoker","Never Smoked/Quit + 12 months")
+
+label(data$bmi3cat) <- "AHA BMI Categorization"
+levels(data$bmi3cat) <- c("Obese","Overweight","Normal Weight")
+
+label(data$totchol3cat) <- "AHA Total Cholesterol Categorization"
+levels(data$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Health")
+
+cox <- coxph(obj ~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data=data)
+
+# cox <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
 
 cox_table <- cox %>% tbl_regression(exp = TRUE) 
 cox_table
 ```
 
-## Assumption Verification
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
++ Of interest from the Cox regression is the hazard ratio (HR).
+  + HR < 1 indicates a reduced hazard of stroke
+  + HR > 1 indicates an increased hazard of death
+  
+As an example, the HR of 0.69 for a participant in intermediate health, as defined by their cholesterol categorization, implies that 0.69 of those in the intermediate health status has a lower hazard of stroke than those in the poor health category.
 
-##Colinearity
-
-##LOF
-
-##AIC
-
-```
-
+Alternately, the HR of 1.10 in a hypertensive participant implies that there is an increase hazard of stroke than those in a non-hypertensive status.
 
 
