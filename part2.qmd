@@ -104,7 +104,6 @@ CONTACTTYPE
 ## Summary statistics
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-
 #load visit 1 data
 datav1 <- read_dta("data/analysis1.dta")
 visit1 <- datav1 %>% dplyr :: select(subjid, visitdate, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
@@ -130,14 +129,13 @@ incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
 data <- full_join(incevtstroke, visit1, by = "subjid")
 data <- na.omit(data)
 
-
 #Transform data
 data$stroke <- as.factor(data$stroke)
 data$htn <- as.factor(data$htn)
 data$diab3cat <- as.factor(data$diab3cat)
 data$idealhealthsmk <- as.factor(data$idealhealthsmk)
 data$totchol3cat <- as.factor(data$totchol3cat)
-data$bmi3cat < as.factor(data$bm)
+data$bmi3cat <- as.factor(data$bmi3cat)
 
 ##Label data
 label(data$stroke) <- "Adjudicated Stroke Occurrance"

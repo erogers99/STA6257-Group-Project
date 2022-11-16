@@ -1,13 +1,13 @@
 ---
 title: "JACKSON HEART STUDY - SURVEILLANCE ANALYSIS"
 subtitle: "STA6257: Advanced Statistical Modeling"
-author: "Elizabeth, Emily, Chad"
+author: "Elizabeth Arthur & Emily Rogers"
 format: 
   revealjs:
     theme: sky
     self-contained: false
     slide-number: false
-    footer: "[STA6257 - Advanced Statistical Modeling](https://samanthaseals.github.io/STA6257)"
+    footer: "We Rock!!"
     width: 1600
     height: 900
     chalkboard: true
@@ -44,11 +44,7 @@ reference[https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.h
 
 Background/objectives of JHS
 
-## **Stroke - Defined**
-
-## **Stroke - Risk Factors**
-
-## **Stroke - Data**
+## **Stroke Risk Factors**
 
 
 
@@ -62,18 +58,23 @@ Background/objectives of JHS
 
 ## **Survival Analysis - K-M Plots**
 
-## **Survival Analysis - Logrank**
+## **Survival Analysis - Assumptions**
 
 ## **Survival Analysis - Cox Proportional Hazards**
 
 
 
-# **Analysis**
+# **Analysis & Results**
 
 
 
 
 ## **References**
 
-# Questions?
++ https://www.rdocumentation.org
++ Ref 2
 
+# Questions?
+<center>
+<img src="/graphics/Raised_Paw.jpg" width="80%"/>
+</center>
