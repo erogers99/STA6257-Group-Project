@@ -14,6 +14,8 @@ library(survival)
 library(ggsurvfit)
 library(gtsummary)
 library(ggfortify)
+library(corrplot)
+library(fastDummies)
 
 #library(tidycmprsk)
 #library(condSURV)
@@ -58,7 +60,8 @@ data <- data %>% mutate(time = difftime(date, visitdate))
 #Create the survival object (created from time variable and if the event has taken place.)
 obj <- Surv(data$time, data$stroke)
 ```
-```{r}
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
  #Sample from object vector
  tail(head(obj, 115), 5)
 ```
@@ -76,10 +79,30 @@ The object created was then used  to construct a survival curve using the survfi
 
 # https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html
 # https://www.rdocumentation.org/packages/survival/versions/3.4-0/topics/aareg
+# https://rviews.rstudio.com/2017/09/25/survival-analysis-with-r/
 
-autoplot(aareg(Surv(data$time, data$stroke) ~ data$age + data$htn + data$diab3cat + data$idealhealthsmk + data$bmi3cat + data$totchol3cat))
+
+autoplot(aareg(obj ~ data$age + data$htn + data$diab3cat + data$idealhealthsmk + data$bmi3cat + data$totchol3cat), xlab = c("Age", "HTN", "Diabeties", "Smoking", "BMI", "Cholesterol"))
+```
+
+
+The above plots show how the effects of the covariates change over time.
+
+
+**HTN**
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+# https://cran.r-project.org/web/packages/ggfortify/vignettes/basics.html
+
+autoplot(survfit(obj ~ htn, data = data))
+```
+
+**Diabetes**
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+autoplot(survfit(obj ~ diab3cat, data = data))
 
 ```
+
+
 
 
 ## Kaplan-Meier (K-M) Survival Estimate {.unnumbered}
@@ -114,30 +137,43 @@ A Cox PH analysis was used to model multiple variables from the data set. The co
 
 ## Assumption Verification {.unnumbered}
 
-**Still need to add in test for collinearity, AIC and goodness of fit**
-
+**Correlation Plot Of Stroke Risk Data**
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-
 ##Colinearity/Multi-collinearity?? 
-##VIF
-## USING ___ AS A CUTOFF, 
 
+data_sub <- data %>% dplyr :: select(stroke, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
+
+A <- cor(data_sub)
+colnames(A) = c('chol', 'BMI','Stroke','age','HTN','Dia','Smoke')
+
+corrplot.mixed(A, order = 'AOE')
+```
+
+**Lack of Fit**
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 ##LOF
-
-##AIC - do we need to add this? This is when we're comparing models.
-
 
 
 ```
 
+**Proportional Hazards**
 Assumption: Hazards are proportional at each point in time throughout the followup
-Using the cox.zph() function from the {survival} packate, the assumption can be checked.
+Using the cox.zph() function from the {survival} package, the assumption can be checked.
 STILL WORKING ON CODE
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 
-#assump_fit <- coxph(Surv(data$time, data$stroke) ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+assump_fit <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+#assump_fit
+
+
+# Checking PH assumptions
+# Significat p-value indicates assumption is not met
+mv_fit <- coxph(obj ~ stroke + age + htn+ diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
+cz <- cox.zph(mv_fit)
+print(cz)
+plot(cz)
 
 ```
 

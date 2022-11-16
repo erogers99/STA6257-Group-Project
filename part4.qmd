@@ -78,7 +78,7 @@ data$htn <- as.factor(data$htn)
 data$diab3cat <- as.factor(data$diab3cat)
 data$idealhealthsmk <- as.factor(data$idealhealthsmk)
 data$totchol3cat <- as.factor(data$totchol3cat)
-data$bmi3cat < as.factor(data$bmi3cat)
+data$bmi3cat <- as.factor(data$bmi3cat)
 
 ##Label data
 label(data$stroke) <- "Adjudicated Stroke Occurrance"
