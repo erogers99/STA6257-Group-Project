@@ -2,7 +2,9 @@
 
 Data reported by the JHS study was used in calculating basic survival analysis on the adjudication of strokes in the cohort. Two data sets were utilized and joined on the variable subjectid. After removing N/As, 2,288 observations remained in the data set for further analysis. The analysis was completed using R statistical software package, specifically the {survival} package. A time variable was created from the date at visit 1 until either the date of event (stroke) or the censoring date to use in the analysis. 
 
-Using the calculated time and the variable stroke, a survival object was created using the surv function. The object creates a vector that results in one entry created for each observation that represent the time to stroke. If the subject was censored, the entry is followed by a +. A sample of the object is shown:
+
+## Creating a survival object
+Using the calculated time and the variable stroke, a survival object was created using the surv function. The object creates a vector that results in one entry created for each observation that represent the time to stroke. If the subject was censored, the entry is followed by a +. A sample of the object vector is shown:
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -67,29 +69,14 @@ obj <- Surv(data$time, data$stroke)
 ```
 
 
-The object created was then used  to construct a survival curve using the survfit function. 
+The object created was then used to construct a survival curve using the survfit function. As an example, the object was plotted against hypertension and diabetes categorization. 
 
-**NOTE: Check to see if this is the correct survival curve function/graph to use - by variable?**
+**Hypertension**
 
-
-
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-#fit <- survfit(Surv(data$time, data$stroke) ~ data$age)
-#autoplot(survfit(Surv(data$time, data$stroke) ~ 1),surv.colour = 'orange', censor.colour = 'red')
-
-# https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html
-# https://www.rdocumentation.org/packages/survival/versions/3.4-0/topics/aareg
-# https://rviews.rstudio.com/2017/09/25/survival-analysis-with-r/
-
-
-autoplot(aareg(obj ~ data$age + data$htn + data$diab3cat + data$idealhealthsmk + data$bmi3cat + data$totchol3cat), xlab = c("Age", "HTN", "Diabeties", "Smoking", "BMI", "Cholesterol"))
-```
-
-
-The above plots show how the effects of the covariates change over time.
-
-
-**HTN**
+*
+As an example, the below graph illustrates the probability of **NOT** having a stroke (the event):
+  + Non-hypertensive (pink): approximately 1% decrease over time
+  + Hypertensive (blue): approximately 3% decrease over time
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # https://cran.r-project.org/web/packages/ggfortify/vignettes/basics.html
 
@@ -97,6 +84,13 @@ autoplot(survfit(obj ~ htn, data = data))
 ```
 
 **Diabetes**
+
+*
+As an example, the below graph illustrates the probability of **NOT** having a stroke (the event):
+  + Non-Diabetic (pink): < 1% decrease over time 
+  + Pre-Diabetic (green): approximately 2.5% decrease over time
+  + Diabetic (blue): approximately 4.5% decrease over time
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 autoplot(survfit(obj ~ diab3cat, data = data))
 
@@ -104,10 +98,9 @@ autoplot(survfit(obj ~ diab3cat, data = data))
 
 
 
-
 ## Kaplan-Meier (K-M) Survival Estimate {.unnumbered}
 
-Broken down, the K-M survival probability of having not having stroke at time, $t_j$, $S(t_j)$ can be calculated using: 
+Broken down, the K-M survival probability of not having stroke at time, $t_j$, $S(t_j)$ can be calculated using: 
 
 + Formula variable definitions
 
