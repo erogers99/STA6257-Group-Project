@@ -1,5 +1,5 @@
-# {.unnumbered}
+# Jackson Heart Study Stroke Data {.unnumbered}
 
-![LOGO from: https://www.nhlbi.nih.gov/news/2019/announcement-retirement-dr-adolfo-correa-director-jackson-heart-study](/graphics/JHS_alt_logo.jpg){style="text-align: center;"}
+![Logo from: https://www.nhlbi.nih.gov/news/2019/announcement-retirement-dr-adolfo-correa-director-jackson-heart-study](/graphics/JHS_alt_logo.jpg){style="text-align: center;"}
 
 
