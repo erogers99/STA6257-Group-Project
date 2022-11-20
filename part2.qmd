@@ -104,7 +104,7 @@ table1(~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat|contactty
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #Create plot of smoking vs contact type.
 
-plot1 <- data %>% ggplot(aes(colour=as.factor(idealhealthsmk), x=contacttype)) + geom_bar (method=lm) + labs(colour= "Smoking Status", y = "Number of Participants", x = "Contact type", title = "Plot 1: Contact type and Smoking Status")
+plot1 <- data %>% ggplot(aes(colour=as.factor(idealhealthsmk), x=contacttype)) + geom_bar (method=lm) + labs(colour= "Smoking Status", y = "Number of Participants", x = "Contact type", title = "Contact type and Smoking Status")
 
 plot1
 

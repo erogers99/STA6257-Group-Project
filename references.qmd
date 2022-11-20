@@ -1,11 +1,6 @@
 # References {.unnumbered}
 
 
- $\begin
-    \setlength{\parindent}{-0.2in}
-    \setlength{\leftskip}{0.2in}
-    \setlength{\parskip}{8pt}
-    
 Bradburn, M.J., Clark, T.G., Love, S.B., & Altman, D.G. (2003). Survival Analysis Part II: Multivariate data analysis - an introduction to concepts and methods. *British Journal of Cancer, 89*(3), 431--436. https://doi.org/10.1038/sj.bjc.6601119
 
 Centers for Disease Control and Prevention \> FastStats Homepage \> Life Stages and Populations \> Deaths (September 6, 2022). Retrieved November 2, 2022, from https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm
@@ -33,4 +28,3 @@ Sullivan, P.S., McKenna, M.T., Waller, L.A., Williamson, G. D., & Lee, L.M. (201
 Wyatt S.B., Diekelmann N., Henderson F., Andrew M.E., Billingsley G., Felder, S.H. et al.(2003). A community-driven model of research participation: the Jackson Heart Study Participant Recruitment and Retention Study. *Ethn Dis, 13*(4):438-455.
 
 Zabor, E. C. (October 19,2022). *Survival Analysis in R.* Retrieved October 28, 2022, from https://www.emilyzabor.com/tutorials/survival_analysis_in_r\_tutorial.htm
-
