@@ -8,13 +8,21 @@ library(lubridate)
 library(survival)
 library(ggsurvfit)
 library(gtsummary)
+library(survival)
+library(ggsurvfit)
+library(gtsummary)
+library(ggfortify)
+library(corrplot)
+
+
+#library(plotly)
 
 #library(tidycmprsk)
 #library(condSURV)
 ```
 The JHS Analysis Dataset Warehouse dictionary was reviewed and variables were selected for further analysis/use in a survival analysis based on the CDC's top risk factors which include: high blood pressure, high cholesterol, smoking, obesity and diabetes. Additionally, age is included, as risk increases with age.
 
-# Summary statistics
+## Summary statistics
 
 Table 2 provides descriptive statistics about selected variables based on the classification of stroke versus the adjudication of stroke and the stroke type. 
 
@@ -72,11 +80,7 @@ label(data$totchol3cat) <- "AHA Total Cholesterol Categorization"
 levels(data$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Health")
 
 #Create Table
-table1(~ stroke + contacttype + age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
-
-
-table1(~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat| stroke*contacttype, data=data)
-
+#table1(~ stroke + contacttype + age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -88,9 +92,101 @@ data <- data %>% mutate(time = difftime(date, visitdate))
 obj <- Surv(data$time, data$stroke)
 ```
 
+
+### **Summary Statistics Based on Contact Type** {.unnumbered}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#Create Table based on contact type
+table1(~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat|contacttype, data=data)
+
+```
+
+### **Visuals** {.unnumbered}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#Create plot of smoking vs contact type.
+
+plot1 <- data %>% ggplot(aes(colour=as.factor(idealhealthsmk), x=contacttype)) + geom_bar (method=lm) + labs(colour= "Smoking Status", y = "Number of Participants", x = "Contact type", title = "Plot 1: Contact type and Smoking Status")
+
+plot1
+
+```
+
+Note: Looking at the above plot it can be seen that the majority of current smokers were censored from the study.
+
+
+
+The below plots illustrate how the individual variables trend (and change) throughout the study.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+#load visit 1 data
+datav1 <- read_dta("data/analysis1.dta")
+visit1 <- datav1 %>% dplyr :: select(subjid, visitdate, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
+
+#visit1 <- visit1 %>% rename(visitdate_v1 = visitdate)
+
+#load adjudicated data
+
+#data_allevtstroke <- read_sas("data/allevtstroke.sas7bdat", NULL)
+#allevtstroke <- data_allevtstroke %>% dplyr :: select(subjid, Stroke, OHDStroke, eventdate)
+
+data_incevtstroke <- read_sas("data/incevtstroke.sas7bdat", NULL)
+incevtstroke <- data_incevtstroke %>% dplyr :: select(subjid, stroke, date, contactType)
+
+#allevtstroke <- allevtstroke %>% rename(stroke_allevt = Stroke, ohdstroke = OHDStroke)
+
+incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
+
+#data_adj <- full_join(allevtstroke, incevtstroke, by = "subjid")
+
+# Create final data set
+
+data <- full_join(incevtstroke, visit1, by = "subjid")
+data <- na.omit(data)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#Create time variable (time from visit 1 until event/censoring date)
+data <- data %>% mutate(time = difftime(date, visitdate))
+
+#Create the survival object (created from time variable and if the event has taken place.)
+obj <- Surv(data$time, data$stroke)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+##Label data
+label(data$age) <- "Age"
+label(data$stroke) <- "Adjudicated Stroke Occurrance"
+label(data$htn) <- "Hypertensive Status"
+label(data$diab3cat) <- "Diabetes Categorization"
+label(data$idealhealthsmk) <- "Smoking Status"
+label(data$bmi3cat) <- "AHA BMI Categorization"
+label(data$totchol3cat) <- "AHA Total Cholesterol Categorization"
+```
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#fit <- survfit(Surv(data$time, data$stroke) ~ data$age)
+#autoplot(survfit(Surv(data$time, data$stroke) ~ 1),surv.colour = 'orange', censor.colour = 'red')
+
+# https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_surv.html
+# https://www.rdocumentation.org/packages/survival/versions/3.4-0/topics/aareg
+# https://rviews.rstudio.com/2017/09/25/survival-analysis-with-r/
+
+
+plot2 <- autoplot(aareg(obj ~ data$age + data$htn + data$diab3cat + data$idealhealthsmk + data$bmi3cat + data$totchol3cat))
+
+#plot2 <- plot2 %>% label()
+
+plot2
+```
+
 ## Data Dictionary
 
 Two data sets were utilized and joined to create a final data set for analysis. Following are the variables used.
+
+The time variable that will be utilized in the survival analysis is calculated using V1DATE and DATE from the adjudicated data set (incevtstroke). This calculated variable represents the event time which is the time from a participant joining the study until the participant either has a stroke or is censored from the study.
+
 
 ### **DATA SET:** Visit 1 Data (analysis1) {.unnumbered}
 
@@ -100,7 +196,7 @@ These data include observations from the participant's first visit in the study.
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | SUBJID            | - Subject identification number for participant                                                                                                                                                                                                                                                                                     |
 | VISITDATE         | - Date of participant exam visit                                                                                                                                                                                                                                                                                                    |
-| AGE               | - Age (in years) of participant at time of visit 1 - Age, based on birth date and clinic visit date, rounded to 0.1                                                                                                                                                                                                                 |
+| AGE               | - Age (in years) of participant at time of visit 1 <br> - Age, based on birth date and clinic visit date, rounded to 0.1                                                                                                                                                                                                                 |
 | HTN               | - HTN status is defined as blood pressure $\geq$ 140/90 mmHg (per JNC 7) or use of blood pressure lowering medication <br> - 0 = if BPjnc7 $\leq$ 1 (Normal/Pre-Hypertensive) AND participant NOT on medication <br> - 1 = if BPjnc7 $\geq$ 2 (Stage I/II Hypertension) AND participant uses medication to control hypertension     |
 | DIAB3CAT          | **Diabetes categorization** <br> - 0 = Non-Diabetic <br> - 1 = Pre-Diabetic <br> - 2 = Diabetic**                                                                                                                                                                                                                                   |
 | IDEALHEALTHSMK    | **Indicator for Ideal Health via Smoking Status** <br> - 0 = Current smoker or Quit \< 12 months ago <br> - 1 = Never smoked or Quit $\geq$ 12 months ago                                                                                                                                                                           |

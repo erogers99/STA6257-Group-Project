@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "Jackson Heart Study - Stroke Survival Analysis"
+  title: "Stroke Survival Analysis"
   subtitle: "STA6257 - Group Project"
   author: "Elizabeth Arthur and Emily Rogers"
   date: "12/07/2022"
