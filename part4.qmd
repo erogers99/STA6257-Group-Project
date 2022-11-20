@@ -8,7 +8,8 @@ library(lubridate)
 library(survival)
 library(ggsurvfit)
 library(gtsummary)
-
+#library(ComparisonSurv)
+library(survminer)
 #library(tidycmprsk)
 #library(condSURV)
 ```
@@ -53,7 +54,20 @@ obj <- Surv(data$time, data$stroke)
 
 ## K-M Plot {.unnumbered}
 
-**ADD INTERPRETATION OF PLOT**
+*
+The K-M plot can be interpreted as:
+   + X-axis: represents time in days
+   + Y-axis: provides the probability of participants having remained stroke free since the start of the study
+   + The line represents the survival curve of the cohort of participants based on the survival object
+   + The shaded area is the 95% confidence interval
+   + A vertical drop in the line indicates an event
+
+*
+Further interpretation can be noted as:
+  + At time zero, the survival probability is 1.0 (100% of the participants are stroke free)
+  + At time 2,500, the survival probability is .99 (99% of the participants are stroke free)
+  + At time > 4,000 the the survival probability is < .98 (less than 98% of the participants are stroke free)
+
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 km <- survfit(obj ~1, data=data)
@@ -62,7 +76,8 @@ km <- survfit(obj ~1, data=data)
 
 km_2 <- survfit2(obj ~ 1, data=data)
 
-km_plot <- km_2 %>% ggsurvfit() + labs(x = "Time in Days", y = "Overall probability Being Stroke Free") +   add_confidence_interval() + add_risktable()
+km_plot <- km_2 %>% ggsurvfit() + labs(title = "K-M Plot", x = "Time in Days", y = "Overall probability of Survival (Stroke Free)") + add_confidence_interval() + add_risktable()
+
 
 km_plot
 ```
@@ -100,14 +115,14 @@ levels(data$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Health"
 
 cox <- coxph(obj ~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data=data)
 
-# cox <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+# cox <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat) + as.factor(totchol3cat), data=data)
 
 cox_table <- cox %>% tbl_regression(exp = TRUE) 
 cox_table
 ```
 
 
-+ Of interest from the Cox regression is the hazard ratio (HR).
++ Of interest from the Cox regression is the hazard ratio (HR) (Zabor).
   + HR < 1 indicates a reduced hazard of stroke
   + HR > 1 indicates an increased hazard of death
   
@@ -116,3 +131,24 @@ As an example, the HR of 0.69 for a participant in intermediate health, as defin
 Alternately, the HR of 1.10 in a hypertensive participant implies that there is an increase hazard of stroke than those in a non-hypertensive status.
 
 
+
+
+### Hazard Curve {.unnumbered}
+*
+The Cox PH Curve can be interpreted as:
+   + X-axis: represents time in days
+   + Y-axis: provides the probability of participants having a stroke since the start of the study
+   + The line represents the hazard curve of the cohort of participants based on the survival object
+   + The shaded area is the 95% confidence interval
+   + A vertical climb in the line indicates an event
+
+*
+Further interpretation can be noted as:
+  + At time zero, the hazard probability is 0.0 (0% of the participants have had a stroke since joining the study)
+  + At time 2,500, the hazard probability is .01 (1% of the participants have had a stroke since joining the study)
+  + At time > 4,000 the the hazard probability is > .02 (greater than 2% of the participants have had a stroke since joining the study)
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+fit <- survfit(obj ~ 1, data = data)
+ggsurvplot(fit, fun = function(y) -log(y), data = data, title = "Hazard Curve", xlab = "Time in days", ylab = "Probablity of Hazard (Stroke)", palette = "#2E9FDF")
+```

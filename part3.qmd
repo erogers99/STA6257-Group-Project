@@ -1,10 +1,10 @@
 # Methods
 
-Data reported by the JHS study was used in calculating basic survival analysis on the adjudication of strokes in the cohort. Two data sets were utilized and joined on the variable subjectid. After removing N/As, 2,288 observations remained in the data set for further analysis. The analysis was completed using R statistical software package, specifically the {survival} package. A time variable was created from the date at visit 1 until either the date of event (stroke) or the censoring date to use in the analysis. 
+Data reported by the JHS study was used in calculating basic survival analysis on the adjudication of strokes in the cohort. Two data sets were utilized and joined on the variable subjectid. After removing N/As, 2,288 observations remained in the data set for further analysis. The analysis was completed using R statistical software package, specifically the {survival} package (Zabor). This analysis will focus on two primary methods, the Kaplan-Meier (KM) plot and the Cox proportional hazards model.
 
 
 ## Creating a survival object
-Using the calculated time and the variable stroke, a survival object was created using the surv function. The object creates a vector that results in one entry created for each observation that represent the time to stroke. If the subject was censored, the entry is followed by a +. A sample of the object vector is shown:
+Using the calculated time and the variable stroke, a survival object was created using the surv() function (Zabor). The object creates a vector that results in one entry created for each observation that represent the time to stroke. If the subject was censored, the entry is followed by a plus symbol (+). A sample of the object vector is shown:
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -75,24 +75,25 @@ The object created was then used to construct a survival curve using the survfit
 
 *
 As an example, the below graph illustrates the probability of **NOT** having a stroke (the event):
-  + Non-hypertensive (pink): approximately 1% decrease over time
-  + Hypertensive (blue): approximately 3% decrease over time
+  + Non-hypertensive (0 - pink): approximately 1% decrease over the length of the study
+  + Hypertensive (1 - blue): approximately 3% decrease over the length of the study
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 # https://cran.r-project.org/web/packages/ggfortify/vignettes/basics.html
 
-autoplot(survfit(obj ~ htn, data = data))
+autoplot(survfit(obj ~ htn, data = data)) + labs(x="Time (days)", y="Probablity of Survival")
 ```
 
 **Diabetes**
 
 *
 As an example, the below graph illustrates the probability of **NOT** having a stroke (the event):
-  + Non-Diabetic (pink): < 1% decrease over time 
-  + Pre-Diabetic (green): approximately 2.5% decrease over time
-  + Diabetic (blue): approximately 4.5% decrease over time
+  + Non-Diabetic (0 - pink): < 1% decrease over the length of the study
+  + Pre-Diabetic (1 - green): approximately 2.5% decrease over the length of the study
+  + Diabetic (2 - blue): approximately 4.5% decrease over the length of the study
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-autoplot(survfit(obj ~ diab3cat, data = data))
+
+autoplot(survfit(obj ~ diab3cat, data = data),legend= TRUE, legTitle = "LEEG", legLabs = c("D", "PD","ND")) + labs(x="Time (days)", y="Probablity of Survival")
 
 ```
 
@@ -107,20 +108,23 @@ Broken down, the K-M survival probability of not having stroke at time, $t_j$, $
   + $S(t_{j-1})$ => the probability of not having a stroke at time *$t_{j-1}$
   + $n_j$ => the number of participants stroke free just before $t_j$, $n_j$
   + $d_j$ => the number of events (strokes) at $t_j$
-  
-  $S(t_j)$ = $S(t_{j-1})$(1 - $\frac{d_j}{n_j}$)
 
+$$  
+  S(t_j) = S(t_{j-1})(1 - \frac{d_j}{n_j})
+$$
+(Clark, Bradburn, Love & Altman, 2003)
 
 A Kaplan-Meier plot was created to visualize the survival curve and confidence interval, which is further discussed in Data Analysis and Results.
 
 
 ## Cox Proportional Hazard (PH) {.unnumbered}
 
-The Cox PH can is the hazard function, $h(t)$, which is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (11), mathematically shown as:
+The Cox PH can is the hazard function, $h(t)$, which is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (Bradburn, Clark, Love & Altman, 2003), mathematically shown as:
 
 $$
 h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
 $$
+
 
 This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (14). 
 
@@ -130,7 +134,11 @@ A Cox PH analysis was used to model multiple variables from the data set. The co
 
 ## Assumption Verification {.unnumbered}
 
-**Correlation Plot Of Stroke Risk Data**
+**Collinearity**
+
+To test the co-linearity of the individual variables, a correlation plot (RDocumentation) was utilized. As all results are much less than one, the individual variables are not dependent on any other variable included in the model. As such, the assumption holds true.
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 ##Colinearity/Multi-collinearity?? 
 
@@ -142,39 +150,25 @@ colnames(A) = c('chol', 'BMI','Stroke','age','HTN','Dia','Smoke')
 corrplot.mixed(A, order = 'AOE')
 ```
 
-**Lack of Fit**
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
-##LOF
 
-
-```
 
 **Proportional Hazards**
-Assumption: Hazards are proportional at each point in time throughout the followup
-Using the cox.zph() function from the {survival} package, the assumption can be checked.
-STILL WORKING ON CODE
+
+Cox PH makes the assumption that hazards are proportional at each point in time throughout the study (Bradburn, Clark, Love & Altman, 2003). Using the cox.zph() function from the {survival} package, the assumption can be checked (Zabor). In the below table it can be seen that all p-values are greater than $\alpha = 0.05$. Therefore, the assumption holds true.
+
+**Note:** this assumption is not applicable for other analysis such as the K-M Survival Estimate.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
-
+#Using the cox.zph() function from the {survival} package, the assumption can be checked.
 
 assump_fit <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
 #assump_fit
-
 
 # Checking PH assumptions
 # Significat p-value indicates assumption is not met
 mv_fit <- coxph(obj ~ stroke + age + htn+ diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
 cz <- cox.zph(mv_fit)
 print(cz)
-plot(cz)
+#plot(cz)
 
 ```
-
-
-
-
-
-
-
-
-
