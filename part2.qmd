@@ -1,4 +1,4 @@
-# Data Exploration 
+# Data Exploration
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -12,96 +12,11 @@ library(gtsummary)
 #library(tidycmprsk)
 #library(condSURV)
 ```
+The JHS Analysis Dataset Warehouse dictionary was reviewed and variables were selected for further analysis/use in a survival analysis based on the CDC's top risk factors which include: high blood pressure, high cholesterol, smoking, obesity and diabetes. Additionally, age is included, as risk increases with age.
 
+# Summary statistics
 
-## Data Dictionary
-
-Two data sets were utilized and joined to create a final data set for analysis. Following are the variables used.
-
-### **DATA SET:** analysis1 {.unnumbered}
-
-These data include observations from the participant's first visit in the study.
-
-SUBJID
-
-:   Subject identification number for participant
-
-VISITDATE
-
-:   Date of participant exam visit
-
-AGE
-
-:   Age (in years) of participant at time of visit 1
-:   Age, based on birth date and clinic visit date, rounded to 0.1
-
-HTN
-
-:   Hypertension Status
-:   HTN status is defined as blood pressure $\geq$ 140/90 mmHg (per JNC 7) or  use of blood pressure lowering medication.
-:   0 = if BPjnc7 $\leq$ 1 (Normal/Pre-Hypertensive) AND participant NOT on medication
-:   1 = if BPjnc7 $\geq$ 2 (Stage I/II Hypertension) AND participant uses medication to control hypertension
-
-DIAB3CAT
-
-:   Diabetes categorization
-
-:   0 = Non-Diabetic
-
-:   1 = Pre-Diabetic
-
-:   2 = Diabetic
-
-IDEALHEALTHSMK
-
-:   Indicator for Ideal Health via Smoking Status
-
-:   0 = Current smoker or Quit < 12 months ago
-
-:   1 = Never smoked or Quit $\geq$ 12 months ago
-
-BMI3CAT
-
-:   0 = Poor Health defined as BMI $\geq$ 30 (Obese)
-
-:   1 = Intermediate Health defined as 25 $\leq$ BMI < 30 (Overweight)
-
-:   2 = Ideal Health defined as BMI < 25 (Normal)
-
-TOTCHOL3CAT
-
-:   AHA Total Cholesterol Categorization
-
-:   0 = Poor Health defined as Total Cholesterol $\geq$ 240
-
-:   1 = Intermediate Health defined as 200 $\leq$ Total Cholesterol < 240 OR if Total Cholesterol < 200 as controlled by medication
-
-:   2 = Ideal Health defined as Total Cholesterol < 200 with NO medication use
-
-
-### **DATA SET:** incevtstroke {.unnumbered}
-
-SUBJID
-
-:   Subject identification number for participant
-
-STROKE
-:   0 = No stroke
-:   1 = Adjudication of Stroke
-
-V1DATE
-
-:   Date of Exam 1 Clinic Visit
-
-DATE
-
-:   Event (stroke) or Censoring Date
-
-CONTACTTYPE
-
-:   Last Contact Type (Censored, Hemorrhagic Stroke, Ischemic Stroke, Previous Stroke, Previous Stroke History, Refused)
-
-## Summary statistics
+Table 2 provides descriptive statistics about selected variables based on the classification of stroke versus the adjudication of stroke and the stroke type. 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #load visit 1 data
@@ -159,6 +74,9 @@ levels(data$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Health"
 #Create Table
 table1(~ stroke + contacttype + age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
 
+
+table1(~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat| stroke*contacttype, data=data)
+
 ```
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -169,3 +87,34 @@ data <- data %>% mutate(time = difftime(date, visitdate))
 #Create the survival object (created from time variable and if the event has taken place.)
 obj <- Surv(data$time, data$stroke)
 ```
+
+## Data Dictionary
+
+Two data sets were utilized and joined to create a final data set for analysis. Following are the variables used.
+
+### **DATA SET:** Visit 1 Data (analysis1) {.unnumbered}
+
+These data include observations from the participant's first visit in the study.
+
+| **Variable Name** | **Definitions and Attributes**                                                                                                                                                                                                                                                                                                      |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SUBJID            | - Subject identification number for participant                                                                                                                                                                                                                                                                                     |
+| VISITDATE         | - Date of participant exam visit                                                                                                                                                                                                                                                                                                    |
+| AGE               | - Age (in years) of participant at time of visit 1 - Age, based on birth date and clinic visit date, rounded to 0.1                                                                                                                                                                                                                 |
+| HTN               | - HTN status is defined as blood pressure $\geq$ 140/90 mmHg (per JNC 7) or use of blood pressure lowering medication <br> - 0 = if BPjnc7 $\leq$ 1 (Normal/Pre-Hypertensive) AND participant NOT on medication <br> - 1 = if BPjnc7 $\geq$ 2 (Stage I/II Hypertension) AND participant uses medication to control hypertension     |
+| DIAB3CAT          | **Diabetes categorization** <br> - 0 = Non-Diabetic <br> - 1 = Pre-Diabetic <br> - 2 = Diabetic**                                                                                                                                                                                                                                   |
+| IDEALHEALTHSMK    | **Indicator for Ideal Health via Smoking Status** <br> - 0 = Current smoker or Quit \< 12 months ago <br> - 1 = Never smoked or Quit $\geq$ 12 months ago                                                                                                                                                                           |
+| BMI3CAT           | - 0 = Poor Health defined as BMI $\geq$ 30 (Obese) <br> - 1 = Intermediate Health defined as 25 $\leq$ BMI \< 30 (Overweight) <br> - 2 = Ideal Health defined as BMI \< 25 (Normal)                                                                                                                                                 |
+| TOTCHOL3CAT       | **AHA Total Cholesterol Categorization** <br> - 0 = Poor Health defined as Total Cholesterol $\geq$ 240 <br> - 1 = Intermediate Health defined as 200 $\leq$ Total Cholesterol \< 240 OR if Total Cholesterol \< 200 as controlled by medication <br> - 2 = Ideal Health defined as Total Cholesterol \< 200 with NO medication use |
+
+
+### **DATA SET:** Adjudicated Data (incevtstroke) {.unnumbered}
+
+
+| **Variable Name** | **Definitions and Attributes**                                                                                                         |
+|-------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| SUBJID            | - Subject identification number for participant                                                                                        |
+| STROKE            | - 0 = No stroke <br> - 1 = Adjudication of stroke                                                                                                   |
+| V1DATE            | Date of Exam 1 Clinic Visit                                                                                                            |
+| DATE              | Event Date (stroke) or Censoring Date                                                                                                  |
+| CONTACTTYPE       | ** Last Contact Type ** <br> - Censored <br> - Hemorrhagic Stroke <br> - Ischemic Stroke <br> - Previous Stroke History <br> - Refused |
