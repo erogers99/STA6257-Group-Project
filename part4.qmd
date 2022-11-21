@@ -84,6 +84,15 @@ km_plot
 
 ## Cox Proportion Hazards Model  {.unnumbered}
 
+
+The hazard object created is modeled on all variables that provides a table which includes the hazard ratio (HR), confidence interval and p-value. Of interest from the Cox regression is the HR (Zabor).
+
+*
+The following HR values indicate:
+  + HR < 1 indicates a reduced hazard of stroke
+  + HR > 1 indicates an increased hazard of death
+
+
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 #Transform data
@@ -105,7 +114,7 @@ label(data$diab3cat) <- "Diabetes Categorization"
 levels(data$diab3cat) <- c("Non-Diabetic", "Pre-Diabetic", "Diabetic")
 
 label(data$idealhealthsmk) <- "Smoking Status"
-levels(data$idealhealthsmk) <- c("Current Smoker","Never Smoked/Quit + 12 months")
+levels(data$idealhealthsmk) <- c("Current Smoker","Never Smoked/Quit >= 12 months")
 
 label(data$bmi3cat) <- "AHA BMI Categorization"
 levels(data$bmi3cat) <- c("Obese","Overweight","Normal Weight")
@@ -122,18 +131,27 @@ cox_table
 ```
 
 
-+ Of interest from the Cox regression is the hazard ratio (HR) (Zabor).
-  + HR < 1 indicates a reduced hazard of stroke
-  + HR > 1 indicates an increased hazard of death
-  
-As an example, the HR of 0.69 for a participant in intermediate health, as defined by their cholesterol categorization, implies that 0.69 of those in the intermediate health status has a lower hazard of stroke than those in the poor health category.
+JHS data don't consistently use the healthy group as the reference - the below interpretation will be split by those with the healthy group as reference and those with the least healthy group as the reference. While the HR is the indicator of interest, p-values will be noted to indicate additional statistical significance to the model.
 
-Alternately, the HR of 1.10 in a hypertensive participant implies that there is an increase hazard of stroke than those in a non-hypertensive status.
+| **Variable**                                   | **Hazard Ratio** | **p-value** | **Interpretation**                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+|------------------------------------------------|------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **_Healthy Indicator = Reference Group_**      |                  |             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Hypertension                                   |       1.10       |     0.8     | -The HR implies that of those classified as hypertensive, there are 1.1 times as many hypertensive participants with stroke occurrence at any given time. <br><br>-Stated another way, hypertensive participants have a slightly higher hazard of stroke than those who are not hypertensive. <br><br>-The p-value may indicate that this is a not significant variable to consider.                                                                                     |
+| Pre-Diabetic                                   |       2.65       |    0.031    | -The HR implies that of those classified as pre-diabetic, there are 2.65 times as many pre-diabetic participants with stroke occurrence at any given time.<br><br>-Stated another way, pre-diabetic participants have a much higher hazard of stroke than those who are not diabetic.<br><br>-The p-value may indicate that tis is not a significant variable to consider.                                                                                               |
+| Diabetic                                       |       4.82       |    0.001    | -The HR implies that of those classified as diabetic, there are 4.82 times as many diabetic participants with stroke occurrence at any given time. <br><br>-Stated another way, diabetic participants have a significantly higher hazard of stroke than those who are not diabetic. <br><br>-The p-vale may indicate that this is a significant variable to consider.                                                                                                    |
+| **_Least Health Indicator = Reference Group_** |                  |             |                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Never Smoked/Quit $\geq$ 12 months             |       0.37       |    0.012    | -The HR implies that of those classified as a non-smoker or having quit $\geq$ 12 months ago,  there are 0.37 times as many non-smokers with stroke occurrence at any given time. <br><br>-Stated another way, non-smokers/those who quit $\geq$ 12 months ago have a significantly lower hazard of stroke than those who are smokers. <br><br>-The p-value may indicate that is is a significant variable to consider.                                                  |
+| Overweight                                     |       1.27       |     0.5     | NEED TO REVIEW/DISCUSS with group. HR doesn't make sense                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Normal Weight                                  |       1.30       |     0.6     | NEED TO REVIEW/DISCUSS with group. HR doesn't make sense.                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Cholesterol - Intermediate Health              |       0.69       |     0.3     | -The HR implies that of those classified as having intermediate health based on their cholesterol, there are 0.69 times as many intermediate health participants with stroke occurrence at any given time. <br><br>-Stated another way, participants classified as having intermediate health have a much lower hazard of stroke than those with high cholesterol/in poor health. <br><br>-The p-value may indicate that this is not a significant variable to consider. |
+| Cholesterol - Ideal Health                     |       0.50       |     0.10    | -The HR implies that of those classified as having ideal health based on their cholesterol, there are 0.5 times as many ideal health participants with stroke occurrence at any given time. <br><br>-Stated another way, participants classified as having ideal health have a significantly lower hazard of stroke than those with high cholesterol/in poor health. <br><br>-The p-value may indicate that this is not a significant variable to consider.              |
 
 
 
 
 ### Hazard Curve {.unnumbered}
+
+
 *
 The Cox PH Curve can be interpreted as:
    + X-axis: represents time in days
