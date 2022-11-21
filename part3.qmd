@@ -119,14 +119,14 @@ A Kaplan-Meier plot was created to visualize the survival curve and confidence i
 
 ## Cox Proportional Hazard (PH) {.unnumbered}
 
-The Cox PH can is the hazard function, $h(t)$, which is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (Bradburn, Clark, Love & Altman, 2003), mathematically shown as:
+The Cox PH is the hazard function, $h(t)$, which is determined by the baseline hazard ($h_0(t)$), a set of variables ($x_1, x_2, … x_p$), and the effect of each variable is determined by their coefficient ($b_1, b_2 … b_p$) (Bradburn, Clark, Love & Altman, 2003), mathematically shown as:
 
 $$
 h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
 $$
 
 
-This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (14). 
+This method does not make the assumption that survival times follow any type of statistical distribution. In the development of the model, it is important to consider whether colinearity, the correlation between two of the independent variables, exists (Linden, Adams & Roberts, 2004). 
 
 A Cox PH analysis was used to model multiple variables from the data set. The coxph() function from the {survival} package was used. The object previously created for the KM plot is found on the left side with standard regression formulas on the right. All variables considered in the model are identified by the CDC as major risk factors for stroke. A table of results was created using the tbl_regression() function out of {gtsummary}, with exponentiate set to TRUE to return the hazard ratio versus the log hazard ratio, which is further discussed in Data Analysis and Results.
 
