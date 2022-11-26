@@ -7,7 +7,7 @@ format:
     theme: sky
     self-contained: false
     slide-number: false
-    footer: "We Rock!!"
+    footer: ""
     width: 1600
     height: 900
     chalkboard: true
@@ -17,64 +17,347 @@ format:
 
 # Background
 
-[PPT & Analysis Coding help](https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
-
-[Survival Package](https://www.rdocumentation.org/packages/survival/versions/3.4-0)
-
-[Format Help](https://quarto.org/docs/presentations/revealjs/)
-
-```{r}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
 library(haven)
-#library(table1)
+library(table1)
 library(survival)
+library(lubridate)
+library(ggsurvfit)
+library(gtsummary)
+library(ggfortify)
+library(corrplot)
+#library(tidycmprsk)
+library(survminer)
+#library(flextable)
 ```
 
-## **Causes of Death**
-
-According to the Centers for Disease Control (1) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1).
-
-reference[https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html]
+## **Causes of Death** {.scrollable}
 
 <center>
-<img src="/graphics/CDC_Top_10_2020.png" width="80%"/>
+![](graphics/CDC_Top_10_2020.png){width=60%}
 </center>
+
+According to the Centers for Disease Control (1) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1). [Reference](https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
 
 ## **Jackson Heart Study**
 
 Background/objectives of JHS
 
 ## **Stroke Risk Factors**
+CDC Risk factors, narrowed down to
 
+## **Data Exploration**
 
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+#load visit 1 data
+datav1 <- read_dta("data/analysis1.dta")
+visit1 <- datav1 %>% dplyr :: select(subjid, visitdate, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
+
+#visit1 <- visit1 %>% rename(visitdate_v1 = visitdate)
+
+#load adjudicated data
+
+#data_allevtstroke <- read_sas("data/allevtstroke.sas7bdat", NULL)
+#allevtstroke <- data_allevtstroke %>% dplyr :: select(subjid, Stroke, OHDStroke, eventdate)
+
+data_incevtstroke <- read_sas("data/incevtstroke.sas7bdat", NULL)
+incevtstroke <- data_incevtstroke %>% dplyr :: select(subjid, stroke, date, contactType)
+
+#allevtstroke <- allevtstroke %>% rename(stroke_allevt = Stroke, ohdstroke = OHDStroke)
+
+incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
+
+#data_adj <- full_join(allevtstroke, incevtstroke, by = "subjid")
+
+# Create final data set
+
+data <- full_join(incevtstroke, visit1, by = "subjid")
+data <- na.omit(data)
+
+#Create time variable (time from visit 1 until event/censoring date)
+data <- data %>% mutate(time = difftime(date, visitdate))
+
+data_sub <- data %>% dplyr :: select(stroke, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat, contacttype)
+
+#Create the survival object (created from time variable and if the event has taken place.)
+obj <- Surv(data$time, data$stroke)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+#Transform data
+data_sub$stroke <- as.factor(data_sub$stroke)
+data_sub$htn <- as.factor(data_sub$htn)
+data_sub$diab3cat <- as.factor(data_sub$diab3cat)
+data_sub$idealhealthsmk <- as.factor(data_sub$idealhealthsmk)
+data_sub$totchol3cat <- as.factor(data_sub$totchol3cat)
+data_sub$bmi3cat <- as.factor(data_sub$bmi3cat)
+
+##Label data
+label(data_sub$stroke) <- "Adjudicated Stroke Occurrance"
+levels(data_sub$stroke) <- c("No Stroke", "Adjudicated Stroke")
+
+label(data_sub$htn) <- "Hypertensive Status"
+levels(data_sub$htn) <- c("Normal/Pre-Hypertensive", "Hypertensive")
+
+label(data_sub$diab3cat) <- "Diabetes Categorization"
+levels(data_sub$diab3cat) <- c("Non-Diabetic", "Pre-Diabetic", "Diabetic")
+
+label(data_sub$idealhealthsmk) <- "Smoking Status"
+levels(data_sub$idealhealthsmk) <- c("Current Smoker","Never Smoked/Quit + 12 months")
+
+label(data_sub$bmi3cat) <- "AHA BMI Categorization"
+levels(data_sub$bmi3cat) <- c("Obese","Overweight","Normal Weight")
+
+label(data_sub$totchol3cat) <- "AHA Total Cholesterol Categorization"
+levels(data_sub$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Health")
+
+#Create Table based on contact type
+T1 <- table1(~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat|contacttype, data=data_sub)
+
+#set_flextable_defaults(font.family = "Arial", font.size = 12)
+#T2 <- t1flex(T1)
+
+T1
+
+```
 
 # **Survival Analysis**
 
 ## **Survival Analysis - General**
 
++ Collection of data: Multiple points in time & Throughout the disease progression
+
++ Statistical Method: Determines time to an event of interest such as: Disease recurrence, Relapse-free time interval, Remission, or Death
+
++ Frequently used in medical field 
+
++ DATA ATTRIBUTES: Infrequent normal distribution,  typically a skewed distribution & the majority of events occur early and then taper
+
++ Focusing on KM plots & Cox PH, but there are also other methods that are not discussed in this presentation.
+
 ## **Survival Analysis - Definitions**
 
-## **Survival Analysis - Methods**
+Only some individuals/patients experience the event, some are censored out of the study due to the patient not having experienced the outcome by the end of the study, being lost to follow-up during the study, or experiences an event that makes additional follow-up impossible.
 
-## **Survival Analysis - K-M Plots**
+**Right censoring** Event occurs beyond the end of the follow-up time/study
+
+**Left censoring** Event occurred prior to the first follow-up
+
+**Interval censoring** Patients come in and out of observation
+
+**Noninformative censoring** Patient is lost from follow-up but is just as likely to have a subsequent event as the remaining study participants.
+
+**Informative censoring** Patient withdraws from study, has a decline in clinical condition, or drug toxicity
+
+**Survivor** Likelihood of event NOT having occurred at a specific time. Denoted $S(t)$
+
+**Hazard** Likelihood of an event  occurring at a specific time. Denoted $h(t)$ or $l(t)$
+
+## **Survival Analysis - Kaplan-Meier (K-M) Survival Estimate**
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+$$  
+  S(t_j) = S(t_{j-1})(1 - \frac{d_j}{n_j})
+$$
+Where:
+
+  + $S(t_{j-1})$ Is the probability of not having a stroke at time $t_{j-1}$
+  + $n_j$ Is the number of participants stroke free just before $t_j$, $n_j$
+  + $d_j$ Is the number of events (strokes) at $t_j$
+
+:::
+
+::: {.column width="50%"}
+
+A Univariate method – Straightforward, only takes into account the factor of interest
+
+**Statistic:** Estimation for each patient surviving at the start of the observation period as a probability of surviving to the end of each observation period.
+
+Each probability is a “step function” and the value changes only at each event time
+
+Cumulative survival probability is calculated by multiplying the probabilities of surviving from one interval to the next.
+
+
+:::
+
+::::
+
+
+## **Survival Analysis - Cox Proportional Hazards (PH)**
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+$$
+h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
+$$
+
+Where:
+
++ $h(t)$ Is the hazard function
++ $x1, x2, … xp$ Is the set of variables used in the hazard function
++ $b1, b2 … bp$ Is the coefficient, which determines the effect of each variable.
+
+:::
+
+::: {.column width="50%"}
+
++ Multivariate
++ Semi-parametric approach
++ No statistical distribution assumption
++ Similar to other regression models
++ Outcome variable related to one or more independent variables
++ Allows to control for censored cases/effects
++ “Describes the relation between the event incident, as expressed by the hazard function and a set of covariates” 
+
+:::
+
+::::
 
 ## **Survival Analysis - Assumptions**
+:::: {.columns}
 
-## **Survival Analysis - Cox Proportional Hazards**
+::: {.column width="50%"}
+
+**Assumption:** All events occur independently of each other.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+##Colinearity/Multi-collinearity
+##Colinearity/Multi-collinearity?? 
+
+data_sub2 <- data %>% dplyr :: select(stroke, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
+
+A <- cor(data_sub2)
+colnames(A) = c('chol', 'BMI','Stroke','age','HTN','Dia','Smoke')
+
+corrplot.mixed(A, order = 'AOE')
+```
+
+:::
+
+::: {.column width="50%"}
+
+**Assumption:** Proportional hazards exist (For Cox PH Only)
 
 
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+# #load visit 1 data
+# datav1 <- read_dta("data/analysis1.dta")
+# visit1 <- datav1 %>% dplyr :: select(subjid, visitdate, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
+# 
+# #visit1 <- visit1 %>% rename(visitdate_v1 = visitdate)
+# 
+# #load adjudicated data
+# 
+# #data_allevtstroke <- read_sas("data/allevtstroke.sas7bdat", NULL)
+# #allevtstroke <- data_allevtstroke %>% dplyr :: select(subjid, Stroke, OHDStroke, eventdate)
+# 
+# data_incevtstroke <- read_sas("data/incevtstroke.sas7bdat", NULL)
+# incevtstroke <- data_incevtstroke %>% dplyr :: select(subjid, stroke, date, contactType)
+# 
+# #allevtstroke <- allevtstroke %>% rename(stroke_allevt = Stroke, ohdstroke = OHDStroke)
+# 
+# incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
+# 
+# #data_adj <- full_join(allevtstroke, incevtstroke, by = "subjid")
+# 
+# # Create final data set
+# 
+# data <- full_join(incevtstroke, visit1, by = "subjid")
+# data <- na.omit(data)
+# 
+# 
+# #Create time variable (time from visit 1 until event/censoring date)
+# data <- data %>% mutate(time = difftime(date, visitdate))
+# 
+# #Using the cox.zph() function from the {survival} package, the assumption can be checked.
+# 
+# assump_fit <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+# #assump_fit
+# 
+# # Checking PH assumptions
+# # Significat p-value indicates assumption is not met
+# mv_fit <- coxph(obj ~ stroke + age + htn+ diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
+# cz <- cox.zph(mv_fit)
+# print(cz)
+```
+:::
+
+::::
 
 # **Analysis & Results**
 
+## K-M Survival Estimate Plot
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+km <- survfit(obj ~1, data=data)
+
+#km_struct <- str(km)
+
+km_2 <- survfit2(obj ~ 1, data=data)
+
+km_plot <- km_2 %>% ggsurvfit::ggsurvfit() + labs(title = "K-M Plot", x = "Time in Days", y = "Overall probability of Survival (Stroke Free)") + add_confidence_interval() + add_risktable()
 
 
+km_plot
+```
 
+## Hazard Curve
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+fit <- survfit(obj ~ 1, data = data)
+ggsurvplot(fit, fun = function(y) -log(y), data = data, title = "Hazard Curve", xlab = "Time in days", ylab = "Probablity of Hazard (Stroke)", palette = "#2E9FDF")
+```
+
+## Cox PH 
+
+:::: {.columns}
+
+::: {.column width="50%"}
+ <br> <br>
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+##Label data
+label(data$stroke) <- "Adjudicated Stroke Occurrance"
+label(data$htn) <- "Hypertensive Status"
+label(data$diab3cat) <- "Diabetes Categorization"
+label(data$idealhealthsmk) <- "Smoking Status"
+label(data$bmi3cat) <- "AHA BMI Categorization"
+label(data$totchol3cat) <- "AHA Total Cholesterol Categorization"
+
+cox <- coxph(obj ~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data=data)
+
+cox_table <- cox %>% tbl_regression(exp = TRUE) 
+cox_table
+```
+
++ HR < 1 indicates a reduced hazard of stroke
++ HR > 1 indicates an increased hazard of stroke
+
+:::
+
+::: {.column width="50%"}
+
+The JHS data is not consistent in the use of the healthy indicator as the reference. The below interpretation will be split by those with the healthy group as reference and those with the least healthy group as the reference. While the HR is the indicator of interest, p-values will be noted to indicate additional statistical significance to the model.
+
+:::
+
+::::
 ## **References**
 
 + https://www.rdocumentation.org
-+ Ref 2
++ (Clark, Bradburn, Love & Altman, 2003)
++ https://quarto.org/
 
 # Questions?
 <center>
-<img src="/graphics/Raised_Paw.jpg" width="80%"/>
+![](graphics/Raised_Paw.jpg){width=60%}
 </center>
