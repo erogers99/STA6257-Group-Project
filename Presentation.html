@@ -25,6 +25,22 @@
     ul.task-list{list-style: none;}
   </style>
   <link rel="stylesheet" href="Presentation_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
   <link href="Presentation_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Presentation_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Presentation_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -316,6 +332,7 @@
     }
   </style>
   
+  <link href="Presentation_files/libs/table1-1.0/table1_defaults.css" rel="stylesheet">
   <link href="Presentation_files/libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
   <script src="Presentation_files/libs/pagedtable-1.1/js/pagedtable.js"></script>
 </head>
@@ -332,20 +349,16 @@
 <section>
 <section id="background" class="title-slide slide level1 center">
 <h1>Background</h1>
-<p><a href="https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html">PPT &amp; Analysis Coding help</a></p>
-<p><a href="https://www.rdocumentation.org/packages/survival/versions/3.4-0">Survival Package</a></p>
-<p><a href="https://quarto.org/docs/presentations/revealjs/">Format Help</a></p>
 <div class="cell">
 
 </div>
 </section>
-<section id="causes-of-death" class="slide level2">
+<section id="causes-of-death" class="slide level2 scrollable">
 <h2><strong>Causes of Death</strong></h2>
-<p>According to the Centers for Disease Control (1) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1).</p>
-<p>reference[https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html]</p>
 <center>
-<img src="/graphics/CDC_Top_10_2020.png" width="80%">
+<img data-src="graphics/CDC_Top_10_2020.png" style="width:60.0%">
 </center>
+<p>According to the Centers for Disease Control (1) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1). <a href="https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html">Reference</a></p>
 </section>
 <section id="jackson-heart-study" class="slide level2">
 <h2><strong>Jackson Heart Study</strong></h2>
@@ -353,6 +366,179 @@
 </section>
 <section id="stroke-risk-factors" class="slide level2">
 <h2><strong>Stroke Risk Factors</strong></h2>
+<p>CDC Risk factors, narrowed down to</p>
+</section>
+<section id="data-exploration" class="slide level2">
+<h2><strong>Data Exploration</strong></h2>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+
+<div class="Rtable1"><table class="Rtable1">
+<thead>
+<tr>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Censored<br><span class="stratn">(N=2245)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Hemorrhagic Stroke<br><span class="stratn">(N=1)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Ischemic Stroke<br><span class="stratn">(N=42)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=2288)</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="rowlabel firstrow">Age in Years</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Mean (SD)</td>
+<td>53.8 (11.7)</td>
+<td>59.2 (NA)</td>
+<td>63.8 (10.4)</td>
+<td>54.0 (11.7)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">53.6 [22.9, 83.2]</td>
+<td class="lastrow">59.2 [59.2, 59.2]</td>
+<td class="lastrow">65.3 [36.6, 83.1]</td>
+<td class="lastrow">53.9 [22.9, 83.2]</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">Hypertensive Status</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Normal/Pre-Hypertensive</td>
+<td>1100 (49.0%)</td>
+<td>0 (0%)</td>
+<td>12 (28.6%)</td>
+<td>1112 (48.6%)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Hypertensive</td>
+<td class="lastrow">1145 (51.0%)</td>
+<td class="lastrow">1 (100%)</td>
+<td class="lastrow">30 (71.4%)</td>
+<td class="lastrow">1176 (51.4%)</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">Diabetes Categorization</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Non-Diabetic</td>
+<td>1086 (48.4%)</td>
+<td>0 (0%)</td>
+<td>7 (16.7%)</td>
+<td>1093 (47.8%)</td>
+</tr>
+<tr>
+<td class="rowlabel">Pre-Diabetic</td>
+<td>792 (35.3%)</td>
+<td>1 (100%)</td>
+<td>18 (42.9%)</td>
+<td>811 (35.4%)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Diabetic</td>
+<td class="lastrow">367 (16.3%)</td>
+<td class="lastrow">0 (0%)</td>
+<td class="lastrow">17 (40.5%)</td>
+<td class="lastrow">384 (16.8%)</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">Smoking Status</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Current Smoker</td>
+<td>275 (12.2%)</td>
+<td>0 (0%)</td>
+<td>9 (21.4%)</td>
+<td>284 (12.4%)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Never Smoked/Quit + 12 months</td>
+<td class="lastrow">1970 (87.8%)</td>
+<td class="lastrow">1 (100%)</td>
+<td class="lastrow">33 (78.6%)</td>
+<td class="lastrow">2004 (87.6%)</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">AHA BMI Categorization</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Obese</td>
+<td>1211 (53.9%)</td>
+<td>0 (0%)</td>
+<td>22 (52.4%)</td>
+<td>1233 (53.9%)</td>
+</tr>
+<tr>
+<td class="rowlabel">Overweight</td>
+<td>743 (33.1%)</td>
+<td>1 (100%)</td>
+<td>15 (35.7%)</td>
+<td>759 (33.2%)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Normal Weight</td>
+<td class="lastrow">291 (13.0%)</td>
+<td class="lastrow">0 (0%)</td>
+<td class="lastrow">5 (11.9%)</td>
+<td class="lastrow">296 (12.9%)</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">AHA Total Cholesterol Categorization</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Poor Health</td>
+<td>307 (13.7%)</td>
+<td>0 (0%)</td>
+<td>10 (23.8%)</td>
+<td>317 (13.9%)</td>
+</tr>
+<tr>
+<td class="rowlabel">Intermediate Health</td>
+<td>899 (40.0%)</td>
+<td>0 (0%)</td>
+<td>21 (50.0%)</td>
+<td>920 (40.2%)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Ideal Health</td>
+<td class="lastrow">1039 (46.3%)</td>
+<td class="lastrow">1 (100%)</td>
+<td class="lastrow">11 (26.2%)</td>
+<td class="lastrow">1051 (45.9%)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="survival-analysis" class="title-slide slide level1 center">
@@ -361,41 +547,586 @@
 </section>
 <section id="survival-analysis---general" class="slide level2">
 <h2><strong>Survival Analysis - General</strong></h2>
+<ul>
+<li><p>Collection of data: Multiple points in time &amp; Throughout the disease progression</p></li>
+<li><p>Statistical Method: Determines time to an event of interest such as: Disease recurrence, Relapse-free time interval, Remission, or Death</p></li>
+<li><p>Frequently used in medical field</p></li>
+<li><p>DATA ATTRIBUTES: Infrequent normal distribution, typically a skewed distribution &amp; the majority of events occur early and then taper</p></li>
+<li><p>Focusing on KM plots &amp; Cox PH, but there are also other methods that are not discussed in this presentation.</p></li>
+</ul>
 </section>
 <section id="survival-analysis---definitions" class="slide level2">
 <h2><strong>Survival Analysis - Definitions</strong></h2>
+<p>Only some individuals/patients experience the event, some are censored out of the study due to the patient not having experienced the outcome by the end of the study, being lost to follow-up during the study, or experiences an event that makes additional follow-up impossible.</p>
+<p><strong>Right censoring</strong> Event occurs beyond the end of the follow-up time/study</p>
+<p><strong>Left censoring</strong> Event occurred prior to the first follow-up</p>
+<p><strong>Interval censoring</strong> Patients come in and out of observation</p>
+<p><strong>Noninformative censoring</strong> Patient is lost from follow-up but is just as likely to have a subsequent event as the remaining study participants.</p>
+<p><strong>Informative censoring</strong> Patient withdraws from study, has a decline in clinical condition, or drug toxicity</p>
+<p><strong>Survivor</strong> Likelihood of event NOT having occurred at a specific time. Denoted <span class="math inline">S(t)</span></p>
+<p><strong>Hazard</strong> Likelihood of an event occurring at a specific time. Denoted <span class="math inline">h(t)</span> or <span class="math inline">l(t)</span></p>
 </section>
-<section id="survival-analysis---methods" class="slide level2">
-<h2><strong>Survival Analysis - Methods</strong></h2>
+<section id="survival-analysis---kaplan-meier-k-m-survival-estimate" class="slide level2">
+<h2><strong>Survival Analysis - Kaplan-Meier (K-M) Survival Estimate</strong></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math display">  
+  S(t_j) = S(t_{j-1})(1 - \frac{d_j}{n_j})
+</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">S(t_{j-1})</span> Is the probability of not having a stroke at time <span class="math inline">t_{j-1}</span></li>
+<li><span class="math inline">n_j</span> Is the number of participants stroke free just before <span class="math inline">t_j</span>, <span class="math inline">n_j</span></li>
+<li><span class="math inline">d_j</span> Is the number of events (strokes) at <span class="math inline">t_j</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p>A Univariate method – Straightforward, only takes into account the factor of interest</p>
+<p><strong>Statistic:</strong> Estimation for each patient surviving at the start of the observation period as a probability of surviving to the end of each observation period.</p>
+<p>Each probability is a “step function” and the value changes only at each event time</p>
+<p>Cumulative survival probability is calculated by multiplying the probabilities of surviving from one interval to the next.</p>
+</div>
+</div>
 </section>
-<section id="survival-analysis---k-m-plots" class="slide level2">
-<h2><strong>Survival Analysis - K-M Plots</strong></h2>
+<section id="survival-analysis---cox-proportional-hazards-ph" class="slide level2">
+<h2><strong>Survival Analysis - Cox Proportional Hazards (PH)</strong></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="math display">
+h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
+</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">h(t)</span> Is the hazard function</li>
+<li><span class="math inline">x1, x2, … xp</span> Is the set of variables used in the hazard function</li>
+<li><span class="math inline">b1, b2 … bp</span> Is the coefficient, which determines the effect of each variable.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Multivariate</li>
+<li>Semi-parametric approach</li>
+<li>No statistical distribution assumption</li>
+<li>Similar to other regression models</li>
+<li>Outcome variable related to one or more independent variables</li>
+<li>Allows to control for censored cases/effects</li>
+<li>“Describes the relation between the event incident, as expressed by the hazard function and a set of covariates”</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="survival-analysis---assumptions" class="slide level2">
 <h2><strong>Survival Analysis - Assumptions</strong></h2>
-</section>
-<section id="survival-analysis---cox-proportional-hazards" class="slide level2">
-<h2><strong>Survival Analysis - Cox Proportional Hazards</strong></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Assumption:</strong> All events occur independently of each other.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="Presentation_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><strong>Assumption:</strong> Proportional hazards exist (For Cox PH Only)</p>
+<div class="cell">
+
+</div>
+</div>
+</div>
 </section></section>
 <section>
 <section id="analysis-results" class="title-slide slide level1 center">
 <h1><strong>Analysis &amp; Results</strong></h1>
 
 </section>
+<section id="k-m-survival-estimate-plot" class="slide level2">
+<h2>K-M Survival Estimate Plot</h2>
+
+<img data-src="Presentation_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="hazard-curve" class="slide level2">
+<h2>Hazard Curve</h2>
+
+<img data-src="Presentation_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<section id="cox-ph" class="slide level2">
+<h2>Cox PH</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><br> <br></p>
+<div class="cell">
+<div class="cell-output-display">
+
+<div id="xvigknkiwy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#xvigknkiwy .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xvigknkiwy .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xvigknkiwy .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xvigknkiwy .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xvigknkiwy .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xvigknkiwy .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xvigknkiwy .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xvigknkiwy .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xvigknkiwy .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xvigknkiwy .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xvigknkiwy .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xvigknkiwy .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xvigknkiwy .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xvigknkiwy .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xvigknkiwy .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xvigknkiwy .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xvigknkiwy .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xvigknkiwy .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xvigknkiwy .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xvigknkiwy .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xvigknkiwy .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xvigknkiwy .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xvigknkiwy .gt_left {
+  text-align: left;
+}
+
+#xvigknkiwy .gt_center {
+  text-align: center;
+}
+
+#xvigknkiwy .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xvigknkiwy .gt_font_normal {
+  font-weight: normal;
+}
+
+#xvigknkiwy .gt_font_bold {
+  font-weight: bold;
+}
+
+#xvigknkiwy .gt_font_italic {
+  font-style: italic;
+}
+
+#xvigknkiwy .gt_super {
+  font-size: 65%;
+}
+
+#xvigknkiwy .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#xvigknkiwy .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xvigknkiwy .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#xvigknkiwy .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#xvigknkiwy .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#xvigknkiwy .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#xvigknkiwy .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>HR</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>95% CI</strong><sup class="gt_footnote_marks">1</sup></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col"><strong>p-value</strong></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Age in Years</td>
+<td class="gt_row gt_center">1.08</td>
+<td class="gt_row gt_center">1.04, 1.12</td>
+<td class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td class="gt_row gt_left">Hypertensive Status</td>
+<td class="gt_row gt_center">1.10</td>
+<td class="gt_row gt_center">0.54, 2.23</td>
+<td class="gt_row gt_center">0.8</td></tr>
+    <tr><td class="gt_row gt_left">Diabetes Categorization</td>
+<td class="gt_row gt_center">2.12</td>
+<td class="gt_row gt_center">1.37, 3.27</td>
+<td class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td class="gt_row gt_left">Smoking Status</td>
+<td class="gt_row gt_center">0.37</td>
+<td class="gt_row gt_center">0.17, 0.81</td>
+<td class="gt_row gt_center">0.012</td></tr>
+    <tr><td class="gt_row gt_left">AHA BMI Categorization</td>
+<td class="gt_row gt_center">1.18</td>
+<td class="gt_row gt_center">0.74, 1.87</td>
+<td class="gt_row gt_center">0.5</td></tr>
+    <tr><td class="gt_row gt_left">AHA Total Cholesterol Categorization</td>
+<td class="gt_row gt_center">0.71</td>
+<td class="gt_row gt_center">0.46, 1.08</td>
+<td class="gt_row gt_center">0.11</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><sup class="gt_footnote_marks">1</sup> HR = Hazard Ratio, CI = Confidence Interval</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
+<ul>
+<li>HR &lt; 1 indicates a reduced hazard of stroke</li>
+<li>HR &gt; 1 indicates an increased hazard of stroke</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p>The JHS data is not consistent in the use of the healthy indicator as the reference. The below interpretation will be split by those with the healthy group as reference and those with the least healthy group as the reference. While the HR is the indicator of interest, p-values will be noted to indicate additional statistical significance to the model.</p>
+</div>
+</div>
+</section>
 <section id="references" class="slide level2">
 <h2><strong>References</strong></h2>
 <ul>
 <li>https://www.rdocumentation.org</li>
-<li>Ref 2</li>
+<li>(Clark, Bradburn, Love &amp; Altman, 2003)</li>
+<li>https://quarto.org/</li>
 </ul>
 </section></section>
 <section id="questions" class="title-slide slide level1 center">
 <h1>Questions?</h1>
 <center>
-<img src="/graphics/Raised_Paw.jpg" width="80%">
+<img data-src="graphics/Raised_Paw.jpg" style="width:60.0%">
 </center>
 <div class="footer footer-default">
-<p>We Rock!!</p>
+
 </div>
 </section>
     </div>
