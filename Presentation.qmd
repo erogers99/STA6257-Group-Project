@@ -40,11 +40,20 @@ library(survminer)
 
 According to the Centers for Disease Control in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth.
 
+$\tiny Centers\ for\ Disease\ Control\ and\ Prevention>FastStats\ Homepage>Life\ Stages\ and\ Populations>Deaths\ (September\ 6, 2022)$
+
+
 ## **Jackson Heart Study**
 <br>
 <center>
-![](graphics/JHS_drilldown.png){width=75%}
+![](graphics/JHS_drilldown.png){width=65%}
 </center>
+
+$\tiny Centers\ for\ Disease\ Control\ and\ Prevention>FastStats\ Homepage>Life\ Stages\ and\ Populations>Deaths\ (September\ 6, 2022)$ 
+<br>
+$\tiny Keku\ et\ al.\ (2004)$
+<br>
+$\tiny Sempos\ et\ al.\ (1999)$
 
 ## **Stroke Risk Factors** {.smaller}
 :::: {.columns}
@@ -75,6 +84,9 @@ According to the Centers for Disease Control in 2020, cardiovascular disease was
 :::
 
 ::::
+
+$\tiny Centers\ for\ Disease\ Control\ and\ Prevention> Stroke Home>Know\ Your\ Risk\ for\ Stroke\ (April\ 12, 2022)$
+
 ## **Data Exploration**
 <center>
 <br>
@@ -159,15 +171,37 @@ T1
 
 ## **Survival Analysis - General**
 
-+ **Collection of data:** Multiple points in time & Throughout the disease progression
++ **Collection of data** 
+  + Multiple points in time
+  + Throughout the disease progression
 
-+ **Statistical Method:** Determines time to an event of interest such as: Disease recurrence, Relapse-free time interval, Remission, or Death
++ **Statistical Method** 
 
-+ Frequently used in the medical field
++ **Determines time to an event of interest**
+  + Disease recurrence
+  + Relapse-free time interval
+  + Remission
+  + Death
 
-+ **Data Attributes:** Infrequent normal distribution,  typically a skewed distribution & the majority of events occur early and then taper
++ **Frequently used in the medical field**
 
-+ **Focus:** KM plots & Cox PH, but there are also other methods that are not discussed in this presentation.
+$\tiny Linden,\ et\ al.\ (2004)$
+
+
+## **Survival Analysis - General (cont...)**
+
++ **Data Attributes** 
+  + Infrequent normal distribution
+  + Typically a skewed distribution
+  + Majority of events occur early and then taper
+
++ **Focus** 
+  + Kaplan-Meier Plots (K-M)
+  + Cox Proportional Hazards
+  
+NOTE: There are also other methods that are not discussed in this presentation.
+
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
 
 ## **Survival Analysis - Definitions**
 <br>
@@ -182,9 +216,28 @@ T1
 
 + **Informative censoring:** Patient withdraws from study, has a decline in clinical condition, or drug toxicity
 
-+ **Survivor:** Likelihood of event NOT having occurred at a specific time. Denoted $S(t)$
 
-+ **Hazard:** Likelihood of an event  occurring at a specific time. Denoted $h(t)$ or $l(t)$
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
+
+## **Survival Analysis - Definitions (cont...)**
+<br>
+
+<font size="7"> 
+
+**RELATED PROBABLITITY FUNCTIONS**
+
+</font>
+
++ **Survivor:** 
+  + Likelihood of event NOT having occurred at a specific time
+  + Denoted $S(t)$
+
++ **Hazard:** 
+  + Likelihood of an event occurring at a specific time
+  + Denoted $h(t)$ or $\lambda (t)$
+
+
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
 
 ## **Survival Analysis - Kaplan-Meier (K-M) Survival Estimate**
 
@@ -205,19 +258,29 @@ Where:
 
 ::: {.column width="50%"}
 
-A Univariate method – Straightforward, only takes into account the factor of interest
-
-**Statistic:** Estimation for each patient surviving at the start of the observation period as a probability of surviving to the end of each observation period.
-
-Each probability is a “step function” and the value changes only at each event time
-
-Cumulative survival probability is calculated by multiplying the probabilities of surviving from one interval to the next.
-
++ Univariate
++ Straightforward
++ Assumption
+  + All events occur independently of each other
 
 :::
 
 ::::
 
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
+
+## **Survival Analysis - Kaplan-Meier (K-M) Survival Estimate (cont...)**
+
+**Statistic** 
+
+Estimation for each patient surviving at the START of the observation period as a **<span style="color: darkred;">PROBABILITY</span>** of surviving to the end of each observation period
+
+Each probability is a “step function” and the value changes **<span style="color: darkred;">only at each event time </span>**
+
+Cumulative survival probability is calculated by multiplying the probabilities of surviving from one interval to the next.
+
+
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
 
 ## **Survival Analysis - Cox Proportional Hazards (PH)**
 
@@ -251,6 +314,10 @@ Where:
 
 ::::
 
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
+<br>
+$\tiny Linden,\ et\ al.\ (2004)$
+
 ## **Survival Analysis - Assumptions**
 :::: {.columns}
 
@@ -276,6 +343,7 @@ colnames(A) = c('chol', 'BMI','Stroke','age','HTN','Dia','Smoke')
 ::: {.column width="50%"}
 
 **Assumption:** Proportional hazards exist (For Cox PH Only)
+
 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
@@ -322,11 +390,63 @@ print(cz)
 ```
 
 All p-values are greater than $\alpha$ = 0.05. Therefore, the assumption holds true.
+
+$\tiny Clark,\ Bradburn,\ Love\ \&\ Altman,\ (2003)$
+<br>
+$\tiny Zabor\ (October\ 19, 2022)$
 :::
 
 ::::
 
 # **Analysis & Results**
+
+## **Survival Object**
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+<br><br>
+
+**Created from Variables**
+
+  + Calculated Time
+  + Stroke (if the event took place)
+
+Creates Vector 
+
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+ #Sample from object vector
+ tail(head(obj, 115), 5)
+```
+
+:::
+
+::: {.column width="50%"}
+
+
+**Diabetes**
+
+<font size="5"> 
+Graph illustrates the probability of **NOT** having a stroke (the event):
+
+  + Non-Diabetic (0 - pink): < 1% decrease over the length of the study
+  + Pre-Diabetic (1 - green): approximately 2.5% decrease over the length of the study
+  + Diabetic (2 - blue): approximately 4.5% decrease over the length of the study
+  
+</font>
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+
+autoplot(survfit(obj ~ diab3cat, data = data),legend= TRUE, legTitle = "LEEG", legLabs = c("D", "PD","ND")) + labs(x="Time (days)", y="Probablity of Survival")
+
+```
+$\tiny Zabor\ (October\ 19, 2022)$
+
+:::
+
+::::
 
 ## **K-M Survival Estimate Plot**
 
@@ -356,7 +476,6 @@ ggsurvplot(fit, fun = function(y) -log(y), data = data, title = "Hazard Curve", 
 :::: {.columns}
 
 ::: {.column width="50%"}
- <br> <br>
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
 ##Label data
@@ -382,29 +501,38 @@ cox_table
 
 ::: {.column width="50%"}
 
-**Age** increases, survivability decreases
+**Age** Increase in age -> increase in hazard of stroke
 
-**Hypertension** positive, survivability decreases
+**Hypertension** Hypertensive -> increase in hazard of stroke
 
-**Diabetes**
+**Diabetes** Pre-Diabetic/Diabetic -> increase in hazard of stroke
 
-**Smoking** 
+$\tiny Reference\ group\ switches\ to\ least\ healthy\ status$
+
+**Smoking** Non-smoker -> decrease in hazard of stroke
 
 **BMI**
 
-**Cholesterol**
+**Cholesterol** Healthy Cholesterol level -> decrease in hazard of stroke
 
 :::
 
 ::::
+
+$\tiny (Zabor)$
+
 ## **References** {.smaller}
 
-+ https://www.rdocumentation.org
-+ (Clark, Bradburn, Love & Altman, 2003)
-+ https://quarto.org/
-+ https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
-+ 
-+ 
++ Centers for Disease Control and Prevention \> FastStats Homepage \> Life Stages and Populations \> Deaths (September 6, 2022). Retrieved November 2, 2022, from https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm
++ Centers for Disease Control and Prevention \> Stroke Home \> Know Your Risk for Stroke (April 12, 2022). Retrieved November 2, 2022, from https://www.cdc.gov/stroke/risk_factors.htm.
+https://www.rdocumentation.org
++ Clark, T.G., Bradburn, M.J., Love, S.B., & Altman, D.G. (2003). Survival Analysis Part I: Basic concepts and first analyses. *Br J Cancer 89*, 232--238. https://doi.org/10.1038/sj.bjc.6601118
++ Keku, E., Rosamond, W. D. Taylor, H. A., Garrison, R. J., Wyatt, S. B., Richard, M., Campbell Jenkins, B.W., Reeves, L. & Sarpong. D.F. (2004). Cardiovascular disease event classification in the Jackson Heart Study: methods and procedures. *Ethnicity & Disease, 15*(4 Suppl 6), S6-70. https://pubmed.ncbi.nlm.nih.gov/16317987
++ Linden, A., Adams, J. & Roberts, N. (2004). Evaluating Disease Management Program Effectiveness: An Introduction to Survival Analysis. *Disease management : DM. 7*. 180-90. 10.1089/1093507042264818.
++ quarto (n.d.). Retrieved November 17, 2022. https://quarto.org/
++ RDocumentation (n.d.). Retrieved October 9, 2022. https://www.rdocumentation.org/
++ Sempos, C.T., Bild D.E., & Manolio, T.A. (1999) Overview of the Jackson Heart Study: A Study of Cardiovascular Diseases in African American Men and Women, *The American Journal of the Medical Sciences, 317*(3),142-146, ISSN 0002-9629, https://doi.org/10.1016/S0002-9629(15)40495-1.
++ Zabor, E. C. (October 19,2022). *Survival Analysis in R.* Retrieved October 28, 2022, from https://www.emilyzabor.com/tutorials/survival_analysis_in_r\_tutorial.htm
 
 # Questions?
 <center>
