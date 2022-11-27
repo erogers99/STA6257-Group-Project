@@ -15,7 +15,7 @@ format:
     html-math-method: katex
 ---
 
-# Background
+# **Background**
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
@@ -32,22 +32,52 @@ library(survminer)
 #library(flextable)
 ```
 
-## **Causes of Death** {.scrollable}
+## **Causes of Death**
 
 <center>
 ![](graphics/CDC_Top_10_2020.png){width=60%}
 </center>
 
-According to the Centers for Disease Control (1) in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth (Figure 1). [Reference](https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html)
+According to the Centers for Disease Control in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth.
 
 ## **Jackson Heart Study**
+<br>
+<center>
+![](graphics/JHS_drilldown.png){width=75%}
+</center>
 
-Background/objectives of JHS
+## **Stroke Risk Factors** {.smaller}
+:::: {.columns}
 
-## **Stroke Risk Factors**
-CDC Risk factors, narrowed down to
+::: {.column width="50%"}
+**<font size="14"> HEALTH </font>**
 
++ **<span style="color: darkred;">High blood pressure</span>**
++ **<span style="color: darkred;">High cholesterol</span>**
++ Previous stroke
++ Heart disease
++ **<span style="color: darkred;">Diabetes</span>**
++ **<span style="color: darkred;">Obesity</span>**
++ Sickle cell disease
++ Family history
++ **<span style="color: darkred;">Age (increases risk)</span>**
++ Sex
++ Race/ethnicity
+:::
+
+::: {.column width="50%"}
+**<font size="14"> BEHAVIORAL </font>**
+
++ Poor diet
++ Minimal physical activity
++ Excessive alcohol use
++ **<span style="color: darkred;">Tobacco use</span>**
+:::
+
+::::
 ## **Data Exploration**
+<center>
+<br>
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 #load visit 1 data
@@ -116,44 +146,45 @@ levels(data_sub$totchol3cat) <- c("Poor Health","Intermediate Health","Ideal Hea
 #Create Table based on contact type
 T1 <- table1(~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat|contacttype, data=data_sub)
 
-#set_flextable_defaults(font.family = "Arial", font.size = 12)
-#T2 <- t1flex(T1)
 
+#T2 <- t1flex(T1)
+#set_flextable_defaults(font.family = "Arial", font.size = 12, border.color = "gray")
 T1
 
 ```
+
+</center>
 
 # **Survival Analysis**
 
 ## **Survival Analysis - General**
 
-+ Collection of data: Multiple points in time & Throughout the disease progression
++ **Collection of data:** Multiple points in time & Throughout the disease progression
 
-+ Statistical Method: Determines time to an event of interest such as: Disease recurrence, Relapse-free time interval, Remission, or Death
++ **Statistical Method:** Determines time to an event of interest such as: Disease recurrence, Relapse-free time interval, Remission, or Death
 
-+ Frequently used in medical field 
++ Frequently used in the medical field
 
-+ DATA ATTRIBUTES: Infrequent normal distribution,  typically a skewed distribution & the majority of events occur early and then taper
++ **Data Attributes:** Infrequent normal distribution,  typically a skewed distribution & the majority of events occur early and then taper
 
-+ Focusing on KM plots & Cox PH, but there are also other methods that are not discussed in this presentation.
++ **Focus:** KM plots & Cox PH, but there are also other methods that are not discussed in this presentation.
 
 ## **Survival Analysis - Definitions**
+<br>
 
-Only some individuals/patients experience the event, some are censored out of the study due to the patient not having experienced the outcome by the end of the study, being lost to follow-up during the study, or experiences an event that makes additional follow-up impossible.
++ **Right censoring:** Event occurs beyond the end of the follow-up time/study
 
-**Right censoring** Event occurs beyond the end of the follow-up time/study
++ **Left censoring:** Event occurred prior to the first follow-up
 
-**Left censoring** Event occurred prior to the first follow-up
++ **Interval censoring:** Patients come in and out of observation
 
-**Interval censoring** Patients come in and out of observation
++ **Noninformative censoring:** Patient is lost from follow-up but is just as likely to have a subsequent event as the remaining study participants.
 
-**Noninformative censoring** Patient is lost from follow-up but is just as likely to have a subsequent event as the remaining study participants.
++ **Informative censoring:** Patient withdraws from study, has a decline in clinical condition, or drug toxicity
 
-**Informative censoring** Patient withdraws from study, has a decline in clinical condition, or drug toxicity
++ **Survivor:** Likelihood of event NOT having occurred at a specific time. Denoted $S(t)$
 
-**Survivor** Likelihood of event NOT having occurred at a specific time. Denoted $S(t)$
-
-**Hazard** Likelihood of an event  occurring at a specific time. Denoted $h(t)$ or $l(t)$
++ **Hazard:** Likelihood of an event  occurring at a specific time. Denoted $h(t)$ or $l(t)$
 
 ## **Survival Analysis - Kaplan-Meier (K-M) Survival Estimate**
 
@@ -201,8 +232,8 @@ $$
 Where:
 
 + $h(t)$ Is the hazard function
-+ $x1, x2, … xp$ Is the set of variables used in the hazard function
-+ $b1, b2 … bp$ Is the coefficient, which determines the effect of each variable.
++ $x_1, x_2, … x_p$ Is the set of variables used in the hazard function
++ $b_1, b_2 … b_p$ Is the coefficient, which determines the effect of each variable.
 
 :::
 
@@ -236,9 +267,10 @@ data_sub2 <- data %>% dplyr :: select(stroke, age, htn, diab3cat, idealhealthsmk
 A <- cor(data_sub2)
 colnames(A) = c('chol', 'BMI','Stroke','age','HTN','Dia','Smoke')
 
-corrplot.mixed(A, order = 'AOE')
+#corrplot.mixed(A, order = 'AOE')
 ```
 
+![](graphics/Assumption1.png){width=90%}
 :::
 
 ::: {.column width="50%"}
@@ -248,53 +280,55 @@ corrplot.mixed(A, order = 'AOE')
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
-# #load visit 1 data
-# datav1 <- read_dta("data/analysis1.dta")
-# visit1 <- datav1 %>% dplyr :: select(subjid, visitdate, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
-# 
-# #visit1 <- visit1 %>% rename(visitdate_v1 = visitdate)
-# 
-# #load adjudicated data
-# 
-# #data_allevtstroke <- read_sas("data/allevtstroke.sas7bdat", NULL)
-# #allevtstroke <- data_allevtstroke %>% dplyr :: select(subjid, Stroke, OHDStroke, eventdate)
-# 
-# data_incevtstroke <- read_sas("data/incevtstroke.sas7bdat", NULL)
-# incevtstroke <- data_incevtstroke %>% dplyr :: select(subjid, stroke, date, contactType)
-# 
-# #allevtstroke <- allevtstroke %>% rename(stroke_allevt = Stroke, ohdstroke = OHDStroke)
-# 
-# incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
-# 
-# #data_adj <- full_join(allevtstroke, incevtstroke, by = "subjid")
-# 
-# # Create final data set
-# 
-# data <- full_join(incevtstroke, visit1, by = "subjid")
-# data <- na.omit(data)
-# 
-# 
-# #Create time variable (time from visit 1 until event/censoring date)
-# data <- data %>% mutate(time = difftime(date, visitdate))
-# 
-# #Using the cox.zph() function from the {survival} package, the assumption can be checked.
-# 
-# assump_fit <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
-# #assump_fit
-# 
-# # Checking PH assumptions
-# # Significat p-value indicates assumption is not met
-# mv_fit <- coxph(obj ~ stroke + age + htn+ diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
-# cz <- cox.zph(mv_fit)
-# print(cz)
+#load visit 1 data
+datav1 <- read_dta("data/analysis1.dta")
+visit1 <- datav1 %>% dplyr :: select(subjid, visitdate, age, htn, diab3cat, idealhealthsmk, bmi3cat, totchol3cat)
+
+#visit1 <- visit1 %>% rename(visitdate_v1 = visitdate)
+
+#load adjudicated data
+
+#data_allevtstroke <- read_sas("data/allevtstroke.sas7bdat", NULL)
+#allevtstroke <- data_allevtstroke %>% dplyr :: select(subjid, Stroke, OHDStroke, eventdate)
+
+data_incevtstroke <- read_sas("data/incevtstroke.sas7bdat", NULL)
+incevtstroke <- data_incevtstroke %>% dplyr :: select(subjid, stroke, date, contactType)
+
+#allevtstroke <- allevtstroke %>% rename(stroke_allevt = Stroke, ohdstroke = OHDStroke)
+
+incevtstroke <- incevtstroke %>% rename(contacttype = contactType)
+
+#data_adj <- full_join(allevtstroke, incevtstroke, by = "subjid")
+
+# Create final data set
+
+data <- full_join(incevtstroke, visit1, by = "subjid")
+data <- na.omit(data)
+
+
+#Create time variable (time from visit 1 until event/censoring date)
+data <- data %>% mutate(time = difftime(date, visitdate))
+
+#Using the cox.zph() function from the {survival} package, the assumption can be checked.
+
+assump_fit <- coxph(obj ~ age + as.factor(htn) + as.factor(diab3cat) + as.factor(idealhealthsmk) + as.factor(bmi3cat)+ as.factor(totchol3cat), data=data)
+#assump_fit
+
+# Checking PH assumptions
+# Significat p-value indicates assumption is not met
+mv_fit <- coxph(obj ~ stroke + age + htn+ diab3cat + idealhealthsmk + bmi3cat + totchol3cat, data = data)
+cz <- cox.zph(mv_fit)
+print(cz)
 ```
+
+All p-values are greater than $\alpha$ = 0.05. Therefore, the assumption holds true.
 :::
 
 ::::
 
 # **Analysis & Results**
 
-## K-M Survival Estimate Plot
+## **K-M Survival Estimate Plot**
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -310,14 +344,14 @@ km_plot <- km_2 %>% ggsurvfit::ggsurvfit() + labs(title = "K-M Plot", x = "Time 
 km_plot
 ```
 
-## Hazard Curve
+## **Hazard Curve**
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 fit <- survfit(obj ~ 1, data = data)
 ggsurvplot(fit, fun = function(y) -log(y), data = data, title = "Hazard Curve", xlab = "Time in days", ylab = "Probablity of Hazard (Stroke)", palette = "#2E9FDF")
 ```
 
-## Cox PH 
+## **Cox PH**
 
 :::: {.columns}
 
@@ -338,24 +372,39 @@ cox <- coxph(obj ~ age + htn + diab3cat + idealhealthsmk + bmi3cat + totchol3cat
 cox_table <- cox %>% tbl_regression(exp = TRUE) 
 cox_table
 ```
+<font size="6"> 
 
 + HR < 1 indicates a reduced hazard of stroke
 + HR > 1 indicates an increased hazard of stroke
 
+</font>
 :::
 
 ::: {.column width="50%"}
 
-The JHS data is not consistent in the use of the healthy indicator as the reference. The below interpretation will be split by those with the healthy group as reference and those with the least healthy group as the reference. While the HR is the indicator of interest, p-values will be noted to indicate additional statistical significance to the model.
+**Age** increases, survivability decreases
+
+**Hypertension** positive, survivability decreases
+
+**Diabetes**
+
+**Smoking** 
+
+**BMI**
+
+**Cholesterol**
 
 :::
 
 ::::
-## **References**
+## **References** {.smaller}
 
 + https://www.rdocumentation.org
 + (Clark, Bradburn, Love & Altman, 2003)
 + https://quarto.org/
++ https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html
++ 
++ 
 
 # Questions?
 <center>
