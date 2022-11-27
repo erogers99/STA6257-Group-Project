@@ -7,7 +7,7 @@
 <link href="Presentation_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Presentation_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="Presentation_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.0.38">
+  <meta name="generator" content="quarto-1.1.189">
 
   <meta name="author" content="Elizabeth Arthur &amp; Emily Rogers">
   <title>JACKSON HEART STUDY - SURVEILLANCE ANALYSIS</title>
@@ -19,10 +19,15 @@
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="Presentation_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
@@ -359,13 +364,15 @@
 <img data-src="graphics/CDC_Top_10_2020.png" style="width:60.0%">
 </center>
 <p>According to the Centers for Disease Control in 2020, cardiovascular disease was the leading cause of death in the United States and cerebrovascular diseases (stroke) are ranked fifth.</p>
+<p><span class="math inline">\tiny Centers\ for\ Disease\ Control\ and\ Prevention&gt;FastStats\ Homepage&gt;Life\ Stages\ and\ Populations&gt;Deaths\ (September\ 6, 2022)</span></p>
 </section>
 <section id="jackson-heart-study" class="slide level2">
 <h2><strong>Jackson Heart Study</strong></h2>
 <br>
 <center>
-<img data-src="graphics/JHS_drilldown.png" style="width:75.0%">
+<img data-src="graphics/JHS_drilldown.png" style="width:65.0%">
 </center>
+<p><span class="math inline">\tiny Centers\ for\ Disease\ Control\ and\ Prevention&gt;FastStats\ Homepage&gt;Life\ Stages\ and\ Populations&gt;Deaths\ (September\ 6, 2022)</span> <br> <span class="math inline">\tiny Keku\ et\ al.\ (2004)</span> <br> <span class="math inline">\tiny Sempos\ et\ al.\ (1999)</span></p>
 </section>
 <section id="stroke-risk-factors" class="slide level2 smaller">
 <h2><strong>Stroke Risk Factors</strong></h2>
@@ -395,6 +402,7 @@
 </ul>
 </div>
 </div>
+<p><span class="math inline">\tiny Centers\ for\ Disease\ Control\ and\ Prevention&gt; Stroke Home&gt;Know\ Your\ Risk\ for\ Stroke\ (April\ 12, 2022)</span></p>
 </section>
 <section id="data-exploration" class="slide level2">
 <h2><strong>Data Exploration</strong></h2>
@@ -579,12 +587,40 @@
 <section id="survival-analysis---general" class="slide level2">
 <h2><strong>Survival Analysis - General</strong></h2>
 <ul>
-<li><p><strong>Collection of data:</strong> Multiple points in time &amp; Throughout the disease progression</p></li>
-<li><p><strong>Statistical Method:</strong> Determines time to an event of interest such as: Disease recurrence, Relapse-free time interval, Remission, or Death</p></li>
-<li><p>Frequently used in the medical field</p></li>
-<li><p><strong>Data Attributes:</strong> Infrequent normal distribution, typically a skewed distribution &amp; the majority of events occur early and then taper</p></li>
-<li><p><strong>Focus:</strong> KM plots &amp; Cox PH, but there are also other methods that are not discussed in this presentation.</p></li>
+<li><p><strong>Collection of data</strong></p>
+<ul>
+<li>Multiple points in time</li>
+<li>Throughout the disease progression</li>
+</ul></li>
+<li><p><strong>Statistical Method</strong></p></li>
+<li><p><strong>Determines time to an event of interest</strong></p>
+<ul>
+<li>Disease recurrence</li>
+<li>Relapse-free time interval</li>
+<li>Remission</li>
+<li>Death</li>
+</ul></li>
+<li><p><strong>Frequently used in the medical field</strong></p></li>
 </ul>
+<p><span class="math inline">\tiny Linden,\ et\ al.\ (2004)</span></p>
+</section>
+<section id="survival-analysis---general-cont" class="slide level2">
+<h2><strong>Survival Analysis - General (cont…)</strong></h2>
+<ul>
+<li><strong>Data Attributes</strong>
+<ul>
+<li>Infrequent normal distribution</li>
+<li>Typically a skewed distribution</li>
+<li>Majority of events occur early and then taper</li>
+</ul></li>
+<li><strong>Focus</strong>
+<ul>
+<li>Kaplan-Meier Plots (K-M)</li>
+<li>Cox Proportional Hazards</li>
+</ul></li>
+</ul>
+<p>NOTE: There are also other methods that are not discussed in this presentation.</p>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span></p>
 </section>
 <section id="survival-analysis---definitions" class="slide level2">
 <h2><strong>Survival Analysis - Definitions</strong></h2>
@@ -595,9 +631,28 @@
 <li><p><strong>Interval censoring:</strong> Patients come in and out of observation</p></li>
 <li><p><strong>Noninformative censoring:</strong> Patient is lost from follow-up but is just as likely to have a subsequent event as the remaining study participants.</p></li>
 <li><p><strong>Informative censoring:</strong> Patient withdraws from study, has a decline in clinical condition, or drug toxicity</p></li>
-<li><p><strong>Survivor:</strong> Likelihood of event NOT having occurred at a specific time. Denoted <span class="math inline">S(t)</span></p></li>
-<li><p><strong>Hazard:</strong> Likelihood of an event occurring at a specific time. Denoted <span class="math inline">h(t)</span> or <span class="math inline">l(t)</span></p></li>
 </ul>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span></p>
+</section>
+<section id="survival-analysis---definitions-cont" class="slide level2">
+<h2><strong>Survival Analysis - Definitions (cont…)</strong></h2>
+<p><br></p>
+<p><font size="7"></font></p><font size="7">
+<p><strong>RELATED PROBABLITITY FUNCTIONS</strong></p>
+</font><p><font size="7"></font></p>
+<ul>
+<li><strong>Survivor:</strong>
+<ul>
+<li>Likelihood of event NOT having occurred at a specific time</li>
+<li>Denoted <span class="math inline">S(t)</span></li>
+</ul></li>
+<li><strong>Hazard:</strong>
+<ul>
+<li>Likelihood of an event occurring at a specific time</li>
+<li>Denoted <span class="math inline">h(t)</span> or <span class="math inline">\lambda (t)</span></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span></p>
 </section>
 <section id="survival-analysis---kaplan-meier-k-m-survival-estimate" class="slide level2">
 <h2><strong>Survival Analysis - Kaplan-Meier (K-M) Survival Estimate</strong></h2>
@@ -605,20 +660,32 @@
 <div class="column" style="width:50%;">
 <p><span class="math display">  
   S(t_j) = S(t_{j-1})(1 - \frac{d_j}{n_j})
-</span></p>
-<p>Where:</p>
+</span> Where:</p>
 <ul>
 <li><span class="math inline">S(t_{j-1})</span> Is the probability of not having a stroke at time <span class="math inline">t_{j-1}</span></li>
 <li><span class="math inline">n_j</span> Is the number of participants stroke free just before <span class="math inline">t_j</span>, <span class="math inline">n_j</span></li>
 <li><span class="math inline">d_j</span> Is the number of events (strokes) at <span class="math inline">t_j</span></li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p>A Univariate method – Straightforward, only takes into account the factor of interest</p>
-<p><strong>Statistic:</strong> Estimation for each patient surviving at the start of the observation period as a probability of surviving to the end of each observation period.</p>
-<p>Each probability is a “step function” and the value changes only at each event time</p>
+<ul>
+<li>Univariate</li>
+<li>Straightforward</li>
+<li>Assumption
+<ul>
+<li>All events occur independently of each other</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span></p>
+</section>
+<section id="survival-analysis---kaplan-meier-k-m-survival-estimate-cont" class="slide level2">
+<h2><strong>Survival Analysis - Kaplan-Meier (K-M) Survival Estimate (cont…)</strong></h2>
+<p><strong>Statistic</strong></p>
+<p>Estimation for each patient surviving at the START of the observation period as a <strong><span style="color: darkred;">PROBABILITY</span></strong> of surviving to the end of each observation period</p>
+<p>Each probability is a “step function” and the value changes <strong><span style="color: darkred;">only at each event time </span></strong></p>
 <p>Cumulative survival probability is calculated by multiplying the probabilities of surviving from one interval to the next.</p>
-</div>
-</div>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span></p>
 </section>
 <section id="survival-analysis---cox-proportional-hazards-ph" class="slide level2">
 <h2><strong>Survival Analysis - Cox Proportional Hazards (PH)</strong></h2>
@@ -645,6 +712,7 @@ h(t) = h_0(t) * e^{b_1x_1 + b_2x_2 + … + b_px_p}
 </ul>
 </div>
 </div>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span> <br> <span class="math inline">\tiny Linden,\ et\ al.\ (2004)</span></p>
 </section>
 <section id="survival-analysis---assumptions" class="slide level2">
 <h2><strong>Survival Analysis - Assumptions</strong></h2>
@@ -670,6 +738,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
 </div>
 </div>
 <p>All p-values are greater than <span class="math inline">\alpha</span> = 0.05. Therefore, the assumption holds true.</p>
+<p><span class="math inline">\tiny Clark,\ Bradburn,\ Love\ \&amp;\ Altman,\ (2003)</span> <br> <span class="math inline">\tiny Zabor\ (October\ 19, 2022)</span></p>
 </div>
 </div>
 </section></section>
@@ -678,28 +747,61 @@ GLOBAL         5.7207  6 0.46</code></pre>
 <h1><strong>Analysis &amp; Results</strong></h1>
 
 </section>
+<section id="survival-object" class="slide level2">
+<h2><strong>Survival Object</strong></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><br><br></p>
+<p><strong>Created from Variables</strong></p>
+<ul>
+<li>Calculated Time</li>
+<li>Stroke (if the event took place)</li>
+</ul>
+<p>Creates Vector</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3362+  694  3295+ 3240+ 3317+</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><strong>Diabetes</strong></p>
+<p><font size="5"> Graph illustrates the probability of <strong>NOT</strong> having a stroke (the event):</font></p><font size="5">
+<ul>
+<li>Non-Diabetic (0 - pink): &lt; 1% decrease over the length of the study</li>
+<li>Pre-Diabetic (1 - green): approximately 2.5% decrease over the length of the study</li>
+<li>Diabetic (2 - blue): approximately 4.5% decrease over the length of the study</li>
+</ul>
+</font><p><font size="5"></font></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="Presentation_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+</div>
+</div>
+<p><span class="math inline">\tiny Zabor\ (October\ 19, 2022)</span></p>
+</div>
+</div>
+</section>
 <section id="k-m-survival-estimate-plot" class="slide level2">
 <h2><strong>K-M Survival Estimate Plot</strong></h2>
 
-<img data-src="Presentation_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<img data-src="Presentation_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch"></section>
 <section id="hazard-curve" class="slide level2">
 <h2><strong>Hazard Curve</strong></h2>
 
-<img data-src="Presentation_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch"></section>
+<img data-src="Presentation_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section>
 <section id="cox-ph" class="slide level2">
 <h2><strong>Cox PH</strong></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><br> <br></p>
 <div class="cell">
 <div class="cell-output-display">
 
-<div id="nyxwwitubt" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="rcavxuhmtn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#nyxwwitubt .gt_table {
+:where(#rcavxuhmtn) .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -724,7 +826,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_heading {
+:where(#rcavxuhmtn) .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -736,7 +838,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_title {
+:where(#rcavxuhmtn) .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -748,7 +850,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-bottom-width: 0;
 }
 
-#nyxwwitubt .gt_subtitle {
+:where(#rcavxuhmtn) .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -760,13 +862,13 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-top-width: 0;
 }
 
-#nyxwwitubt .gt_bottom_border {
+:where(#rcavxuhmtn) .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_col_headings {
+:where(#rcavxuhmtn) .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -781,7 +883,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_col_heading {
+:where(#rcavxuhmtn) .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -801,7 +903,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   overflow-x: hidden;
 }
 
-#nyxwwitubt .gt_column_spanner_outer {
+:where(#rcavxuhmtn) .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -813,15 +915,15 @@ GLOBAL         5.7207  6 0.46</code></pre>
   padding-right: 4px;
 }
 
-#nyxwwitubt .gt_column_spanner_outer:first-child {
+:where(#rcavxuhmtn) .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nyxwwitubt .gt_column_spanner_outer:last-child {
+:where(#rcavxuhmtn) .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nyxwwitubt .gt_column_spanner {
+:where(#rcavxuhmtn) .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -833,7 +935,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   width: 100%;
 }
 
-#nyxwwitubt .gt_group_heading {
+:where(#rcavxuhmtn) .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -858,7 +960,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   vertical-align: middle;
 }
 
-#nyxwwitubt .gt_empty_group_heading {
+:where(#rcavxuhmtn) .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -873,15 +975,15 @@ GLOBAL         5.7207  6 0.46</code></pre>
   vertical-align: middle;
 }
 
-#nyxwwitubt .gt_from_md > :first-child {
+:where(#rcavxuhmtn) .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nyxwwitubt .gt_from_md > :last-child {
+:where(#rcavxuhmtn) .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nyxwwitubt .gt_row {
+:where(#rcavxuhmtn) .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -900,7 +1002,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   overflow-x: hidden;
 }
 
-#nyxwwitubt .gt_stub {
+:where(#rcavxuhmtn) .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -913,7 +1015,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   padding-right: 5px;
 }
 
-#nyxwwitubt .gt_stub_row_group {
+:where(#rcavxuhmtn) .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -927,11 +1029,11 @@ GLOBAL         5.7207  6 0.46</code></pre>
   vertical-align: top;
 }
 
-#nyxwwitubt .gt_row_group_first td {
+:where(#rcavxuhmtn) .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nyxwwitubt .gt_summary_row {
+:where(#rcavxuhmtn) .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -941,16 +1043,16 @@ GLOBAL         5.7207  6 0.46</code></pre>
   padding-right: 5px;
 }
 
-#nyxwwitubt .gt_first_summary_row {
+:where(#rcavxuhmtn) .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_first_summary_row.thick {
+:where(#rcavxuhmtn) .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nyxwwitubt .gt_last_summary_row {
+:where(#rcavxuhmtn) .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -960,7 +1062,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_grand_summary_row {
+:where(#rcavxuhmtn) .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -970,7 +1072,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   padding-right: 5px;
 }
 
-#nyxwwitubt .gt_first_grand_summary_row {
+:where(#rcavxuhmtn) .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -980,11 +1082,11 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_striped {
+:where(#rcavxuhmtn) .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nyxwwitubt .gt_table_body {
+:where(#rcavxuhmtn) .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -993,7 +1095,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_footnotes {
+:where(#rcavxuhmtn) .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1007,7 +1109,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_footnote {
+:where(#rcavxuhmtn) .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1016,7 +1118,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   padding-right: 5px;
 }
 
-#nyxwwitubt .gt_sourcenotes {
+:where(#rcavxuhmtn) .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1030,7 +1132,7 @@ GLOBAL         5.7207  6 0.46</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nyxwwitubt .gt_sourcenote {
+:where(#rcavxuhmtn) .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1038,64 +1140,64 @@ GLOBAL         5.7207  6 0.46</code></pre>
   padding-right: 5px;
 }
 
-#nyxwwitubt .gt_left {
+:where(#rcavxuhmtn) .gt_left {
   text-align: left;
 }
 
-#nyxwwitubt .gt_center {
+:where(#rcavxuhmtn) .gt_center {
   text-align: center;
 }
 
-#nyxwwitubt .gt_right {
+:where(#rcavxuhmtn) .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nyxwwitubt .gt_font_normal {
+:where(#rcavxuhmtn) .gt_font_normal {
   font-weight: normal;
 }
 
-#nyxwwitubt .gt_font_bold {
+:where(#rcavxuhmtn) .gt_font_bold {
   font-weight: bold;
 }
 
-#nyxwwitubt .gt_font_italic {
+:where(#rcavxuhmtn) .gt_font_italic {
   font-style: italic;
 }
 
-#nyxwwitubt .gt_super {
+:where(#rcavxuhmtn) .gt_super {
   font-size: 65%;
 }
 
-#nyxwwitubt .gt_footnote_marks {
+:where(#rcavxuhmtn) .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#nyxwwitubt .gt_asterisk {
+:where(#rcavxuhmtn) .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nyxwwitubt .gt_indent_1 {
+:where(#rcavxuhmtn) .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nyxwwitubt .gt_indent_2 {
+:where(#rcavxuhmtn) .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nyxwwitubt .gt_indent_3 {
+:where(#rcavxuhmtn) .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nyxwwitubt .gt_indent_4 {
+:where(#rcavxuhmtn) .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nyxwwitubt .gt_indent_5 {
+:where(#rcavxuhmtn) .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1152,24 +1254,29 @@ GLOBAL         5.7207  6 0.46</code></pre>
 </ul>
 </font><p><font size="6"></font></p>
 </div><div class="column" style="width:50%;">
-<p><strong>Age</strong> increases, survivability decreases</p>
-<p><strong>Hypertension</strong> positive, survivability decreases</p>
-<p><strong>Diabetes</strong></p>
-<p><strong>Smoking</strong></p>
+<p><strong>Age</strong> Increase in age -&gt; increase in hazard of stroke</p>
+<p><strong>Hypertension</strong> Hypertensive -&gt; increase in hazard of stroke</p>
+<p><strong>Diabetes</strong> Pre-Diabetic/Diabetic -&gt; increase in hazard of stroke</p>
+<p><span class="math inline">\tiny Reference\ group\ switches\ to\ least\ healthy\ status</span></p>
+<p><strong>Smoking</strong> Non-smoker -&gt; decrease in hazard of stroke</p>
 <p><strong>BMI</strong></p>
-<p><strong>Cholesterol</strong></p>
+<p><strong>Cholesterol</strong> Healthy Cholesterol level -&gt; decrease in hazard of stroke</p>
 </div>
 </div>
+<p><span class="math inline">\tiny (Zabor)</span></p>
 </section>
 <section id="references" class="slide level2 smaller">
 <h2><strong>References</strong></h2>
 <ul>
-<li>https://www.rdocumentation.org</li>
-<li>(Clark, Bradburn, Love &amp; Altman, 2003)</li>
-<li>https://quarto.org/</li>
-<li>https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.html</li>
-<li></li>
-<li></li>
+<li>Centers for Disease Control and Prevention &gt; FastStats Homepage &gt; Life Stages and Populations &gt; Deaths (September 6, 2022). Retrieved November 2, 2022, from https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm</li>
+<li>Centers for Disease Control and Prevention &gt; Stroke Home &gt; Know Your Risk for Stroke (April 12, 2022). Retrieved November 2, 2022, from https://www.cdc.gov/stroke/risk_factors.htm. https://www.rdocumentation.org</li>
+<li>Clark, T.G., Bradburn, M.J., Love, S.B., &amp; Altman, D.G. (2003). Survival Analysis Part I: Basic concepts and first analyses. <em>Br J Cancer 89</em>, 232–238. https://doi.org/10.1038/sj.bjc.6601118</li>
+<li>Keku, E., Rosamond, W. D. Taylor, H. A., Garrison, R. J., Wyatt, S. B., Richard, M., Campbell Jenkins, B.W., Reeves, L. &amp; Sarpong. D.F. (2004). Cardiovascular disease event classification in the Jackson Heart Study: methods and procedures. <em>Ethnicity &amp; Disease, 15</em>(4 Suppl 6), S6-70. https://pubmed.ncbi.nlm.nih.gov/16317987</li>
+<li>Linden, A., Adams, J. &amp; Roberts, N. (2004). Evaluating Disease Management Program Effectiveness: An Introduction to Survival Analysis. <em>Disease management : DM. 7</em>. 180-90. 10.1089/1093507042264818.</li>
+<li>quarto (n.d.). Retrieved November 17, 2022. https://quarto.org/</li>
+<li>RDocumentation (n.d.). Retrieved October 9, 2022. https://www.rdocumentation.org/</li>
+<li>Sempos, C.T., Bild D.E., &amp; Manolio, T.A. (1999) Overview of the Jackson Heart Study: A Study of Cardiovascular Diseases in African American Men and Women, <em>The American Journal of the Medical Sciences, 317</em>(3),142-146, ISSN 0002-9629, https://doi.org/10.1016/S0002-9629(15)40495-1.</li>
+<li>Zabor, E. C. (October 19,2022). <em>Survival Analysis in R.</em> Retrieved October 28, 2022, from https://www.emilyzabor.com/tutorials/survival_analysis_in_r_tutorial.htm</li>
 </ul>
 </section></section>
 <section id="questions" class="title-slide slide level1 center">
@@ -1485,7 +1592,8 @@ GLOBAL         5.7207  6 0.46</code></pre>
       for (var i=0; i<noterefs.length; i++) {
         const ref = noterefs[i];
         tippyHover(ref, function() {
-          let href = ref.getAttribute('href');
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
           try { href = new URL(href).hash; } catch {}
           const id = href.replace(/^#\/?/, "");
           const note = window.document.getElementById(id);
